@@ -18,17 +18,19 @@ public class MainCamera : MonoBehaviour
     }
 
     // Conversion from celestial RA and DEC values to a usable transform vector
-    vector3 CoordConversion(double right_ascension, double declination)
+    Vector3 CoordConversion(float right_ascension, float declination)
     {
-        const double DISTANCE_MOD = 10;
-        vector3 transform;
-        double x, y, z;
+        //This value is only for making the scene more managable in Unity editor by moving objects farther from the camera
+        const float DISTANCE_MOD = 10.0f;
 
-        x = Mathf.Sin(right_ascension);
-        y = Mathf.Cos(right_ascension);
-        z = Mathf.Sin(declination);
+        Vector3 transform;
+        float x, y, z;
 
-        transform = new vector3(x, y, z) * DISTANCE_MOD;
+        x = Mathf.Sin(right_ascension) * DISTANCE_MOD;
+        y = Mathf.Cos(right_ascension) * DISTANCE_MOD;
+        z = Mathf.Sin(declination) * DISTANCE_MOD;
+
+        transform = new Vector3(x, y, z);
 
         return transform;
     }
