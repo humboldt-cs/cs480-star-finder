@@ -10,9 +10,12 @@ public class MainCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Variable to hole Camera Position
+        Vector3 camera_position = transform.position;
+
         // Test star generation data
         // Sirius - RA: 101.2875, Dec: -16.7161
-        Instantiate(starPrefab, CoordConversion(101.2875f, -16.7161f), Quaternion.identity);
+        Instantiate(starPrefab, CoordConversion(101.2875f, -16.7161f), Quaternion.LookRotation(camera_position, Vector3.up));
     }
 
     // Update is called once per frame
@@ -23,7 +26,7 @@ public class MainCamera : MonoBehaviour
     }
 
     // Conversion from celestial RA and DEC values to a usable transform vector
-    // Expected RA value to be in degrees
+    // Expected RA/Dec values to be in degrees
     Vector3 CoordConversion(float right_ascension, float declination)
     {
         const float DISTANCE_MOD = 10.0f; // This value is only for making the scene more managable in Unity editor by moving objects farther from the camera
