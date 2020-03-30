@@ -8,7 +8,9 @@
 
 ## Overview
 ### Description
-[Description of your app]
+Star-Finder is an app that uses AR to allow the user to aim their phone in any direction (whether the sky or the ground) and see what stars 
+and constellations are located in that direction. You can use it to see what is visible in the night sky, or aim your phone at the ground 
+and see what constellations are on the other side of the planet.
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
