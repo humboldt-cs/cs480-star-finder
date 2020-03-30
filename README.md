@@ -14,10 +14,10 @@ and see what constellations are on the other side of the planet.
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
-- **Category:**
-- **Mobile:**
+- **Category:** Astronomy/recreational.
+- **Mobile:** Android.
 - **Story:**
-- **Market:**
+- **Market:** Astronomers, both professional and amateur.
 - **Habit:**
 - **Scope:**
 
