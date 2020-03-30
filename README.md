@@ -58,7 +58,7 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 
 **Flow Navigation** (Screen to Screen)
 
-* Night SKy Viewer Screen
+* Night Sky View Screen
    * Magnifying Glass Icon -> Search Screen
    * Hamburger Menu Icon -> Settings Screen
    * Selecting Night Sky Object -> Details Screen
