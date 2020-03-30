@@ -13,13 +13,14 @@ and constellations are located in that direction. You can use it to see what is 
 and see what constellations are on the other side of the planet.
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
 - **Category:** Astronomy/recreational.
 - **Mobile:** Android.
-- **Story:**
+- **Story:** Allows the user to point their phone in any direction, and use AR inputs to show them what celestial objects are located in
+that direction.
 - **Market:** Astronomers, both professional and amateur.
-- **Habit:**
-- **Scope:**
+- **Habit:** Could be used as often or as little as the user cares to. 
+- **Scope:** We would first want to get a few test objects up and running to represent 20 or so objects, while configuring the camera to
+move in response to AR inputs. Later, we could add more objects, or perhaps touch up the visual representation of the objects.
 
 ## Product Spec
 
