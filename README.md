@@ -24,41 +24,51 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 
 ### 1. User Stories (Required and Optional)
 
+
 **Required Must-have Stories**
 
-* [fill in your required user stories here]
-* ...
+* Display an accurate simulation of bright objects in the celestial sphere (stars, planets, nebulas, galaxies)
+* Change the orientation of the horizon based on user geolocation
+* Integrate AR features to allow the user to explore the night sky in real time
 
 **Optional Nice-to-have Stories**
 
-* [fill in your required user stories here]
-* ...
+* Add a search option to allow the user to find particular objects of interest
+* Allow the user to view constellation outlines and adjust other visual settings
+* Give scientific information back to the user when selecting a night sky object (star class, size, magnitude etc.)
 
 ### 2. Screen Archetypes
 
-* [list first screen here]
-   * [list associated required story here]
-   * ...
-* [list second screen here]
-   * [list associated required story here]
-   * ...
+* Main Screen (Night Sky Viewer)
+   * Display an accurate simulation of bright objects in the celestial sphere (stars, planets, nebulas, galaxies)
+   * Change the orientation of the horizon based on user geolocation
+   * Integrate AR features to allow the user to explore the night sky in real time
+* Search Screen
+   * Add a search option to allow the user to find particular objects of interest
+* Settings Screen
+   * Allow the user to view constellation outlines and adjust other visual settings
+* Details Screen
+   * Give scientific information back to the user when selecting a night sky object (star class, size, magnitude etc.)
 
 ### 3. Navigation
 
 **Tab Navigation** (Tab to Screen)
 
-* [fill out your first tab]
-* [fill out your second tab]
-* [fill out your third tab]
+* Star-Finder will not use tab navigation
 
 **Flow Navigation** (Screen to Screen)
 
-* [list first screen here]
-   * [list screen navigation here]
-   * ...
-* [list second screen here]
-   * [list screen navigation here]
-   * ...
+* Night SKy Viewer Screen
+   * Magnifying Glass Icon -> Search Screen
+   * Hamburger Menu Icon -> Settings Screen
+   * Selecting Night Sky Object -> Details Screen
+* Search Screen
+   * Back Arrow Button -> Night Sky View Screen (No Search)
+   * Search Button -> Night Sky View Screen (Search for Object)
+* Settings Screen
+   * Save Settings Button -> Night Sky View Screen
+* Details Screen
+   * Back Arrow Button -> Night Sky View Screen
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
