@@ -8,9 +8,7 @@
 
 ## Overview
 ### Description
-Star-Finder is an app that uses AR to allow the user to aim their phone in any direction (whether the sky or the ground) and see what stars 
-and constellations are located in that direction. You can use it to see what is visible in the night sky, or aim your phone at the ground 
-and see what constellations are on the other side of the planet.
+Star-Finder is a Unity application that will allow users to explore an accurate simulation of the night sky on their mobile devices. Users can view the stars, planets, and other deep sky objects that are above their location. Star-Finder will also incorporate AR features, allowing the user to aim their phone in any direction (whether the sky or the ground) and see what stars and constellations are located in that direction.
 
 ### App Evaluation
 - **Category:** Astronomy/recreational.
