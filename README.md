@@ -79,6 +79,8 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 
 ### [BONUS] Interactive Prototype
 
+<img src="https://i.imgur.com/LF05z61.gif">
+
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
