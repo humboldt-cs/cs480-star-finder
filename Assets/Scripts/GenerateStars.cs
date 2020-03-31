@@ -10,13 +10,30 @@ public class GenerateStars : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Test call of RA->Deg
-        float temp_RA = RightAscensionToRadians(64508.9f);
-        float temp_Dec = DeclinationToRadians(-164258f);
+        // Grab CSV data from text file
+        TextAsset star_data = Resources.Load<TextAsset>("twenty_six_brightest");
+        // Split text data by newline
+        string[] stars = star_data.text.Split('\n');
 
-        // Test star generation data
-        // Sirius - RA: 101.2875, Dec: -16.7161
-        Instantiate(starPrefab, CoordConversion(1.7678f, -0.2917f), Quaternion.identity);
+        //Loop through star data and instantiate a prefab for each after coordinate conversion
+        for(int i = 1; i < stars.Length; i++)
+        {
+            // Split current star data into comma deliminated substrings
+            string[] current_star = stars[i].Split(',');
+
+            // Attempt to grab coordinate data
+            float right_ascension;
+            float.TryParse(current_star[1], out right_ascension);
+            float declination;
+            float.TryParse(current_star[2], out declination);
+
+            // Correct coordinate data to radians
+            right_ascension = RightAscensionToRadians(right_ascension);
+            declination = DeclinationToRadians(declination);
+
+            // Instantiate star
+            Instantiate(starPrefab, CoordConversion(right_ascension, declination), Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
