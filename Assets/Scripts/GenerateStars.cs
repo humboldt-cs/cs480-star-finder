@@ -11,7 +11,7 @@ public class GenerateStars : MonoBehaviour
     void Start()
     {
         // Grab CSV data from text file
-        TextAsset star_data = Resources.Load<TextAsset>("twenty_six_brightest");
+        TextAsset star_data = Resources.Load<TextAsset>("orion");
         // Split text data by newline
         string[] stars = star_data.text.Split('\n');
 
