@@ -11,11 +11,12 @@ public class GenerateStars : MonoBehaviour
     void Start()
     {
         // Test call of RA->Deg
-        float temp = RightAscensionToDegrees(64508.9f);
+        float temp_RA = RightAscensionToRadians(64508.9f);
+        float temp_Dec = DeclinationToRadians(-164258f);
 
         // Test star generation data
         // Sirius - RA: 101.2875, Dec: -16.7161
-        Instantiate(starPrefab, CoordConversion(101.2875f, -16.7161f), Quaternion.identity);
+        Instantiate(starPrefab, CoordConversion(1.7678f, -0.2917f), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -41,27 +42,55 @@ public class GenerateStars : MonoBehaviour
         return transform;
     }
 
-    float RightAscensionToDegrees(float right_ascension)
+    // Conversion from raw RA value to angle in radians for use in sin / cos functions
+    float RightAscensionToRadians(float ra_raw)
     {
-        // Grab arcseconds from raw data
-        float ss = Mathf.Round(right_ascension % 100);
+        float ra_corrected = Mathf.Abs(ra_raw);
 
-        // Grab arcminutes from raw data
-        float mm = Mathf.Floor((right_ascension % 10000) / 100);
+        // Grab seconds from raw data and round to nearest second
+        float ss = Mathf.Round(ra_corrected % 100);
+
+        // Grab minutes from raw data
+        float mm = (int)((ra_corrected % 10000) / 100);
 
         // Grab archours from raw data
-        float hh = Mathf.Floor((right_ascension % 1000000) / 10000);
+        float hh = (int)((ra_corrected % 1000000) / 10000);
 
-        // Convert hh:mm:ss to degrees
+        // Convert hh:mm:ss to radians
         float radians = ((hh / 24) + (mm / 1440) + (ss / 86400)) * Mathf.PI * 2;
+
+        // Convert to negative value if necessary
+        if(ra_raw < 0)
+        {
+            radians *= -1;
+        }
 
         return radians;
     }
 
-    float DeclinationToDegrees(float declination)
+    // Conversion from raw DEC value to angle in radians for use in sin / cos functions
+    float DeclinationToRadians(float dec_raw)
     {
-        
+        float dec_corrected = Mathf.Abs(dec_raw);
 
-        return 0.0f;
+        // Grab arcseconds from raw data and round to nearest arcsecond
+        float ss = Mathf.Round(dec_corrected % 100);
+
+        // Grab arcminutes from raw data
+        float mm = (int)((dec_corrected % 10000) / 100);
+
+        // Grab degrees from raw data
+        float degrees = (int)((dec_corrected % 1000000) / 10000);
+
+        // Convert deg:arcminutes:arcseconds to radians
+        float radians = ((degrees / 360) + (mm / 21600) + (ss / 1296000)) * Mathf.PI * 2;
+
+        // Convert to negative value if necessary
+        if(dec_raw < 0)
+        {
+            radians *= -1;
+        }
+
+        return radians;
     }
 }
