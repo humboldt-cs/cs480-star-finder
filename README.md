@@ -71,8 +71,7 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
    * Back Arrow Button -> Night Sky View Screen
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="https://github.com/humboldt-cs/cs480-star-finder/blob/master/StarFinderWireframe.jpg" width=1000>
 
 ### [BONUS] Digital Wireframes & Mockups
 
