@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GenerateStars : MonoBehaviour
 {
-    // Placeholder for Sirius
+    // Star prefab asset
     public GameObject starPrefab;
 
     // Start is called before the first frame update
@@ -16,7 +16,7 @@ public class GenerateStars : MonoBehaviour
         string[] stars = star_data.text.Split('\n');
 
         //Loop through star data and instantiate a prefab for each after coordinate conversion
-        for(int i = 1; i < stars.Length; i++)
+        for(int i = 1; i < stars.Length - 1; i++)
         {
             // Split current star data into comma deliminated substrings
             string[] current_star = stars[i].Split(',');
@@ -27,12 +27,13 @@ public class GenerateStars : MonoBehaviour
             float declination;
             float.TryParse(current_star[2], out declination);
 
-            // Correct coordinate data to radians
+            // Convert coordinate data to radians
             right_ascension = RightAscensionToRadians(right_ascension);
             declination = DeclinationToRadians(declination);
 
-            // Instantiate star
-            Instantiate(starPrefab, CoordConversion(right_ascension, declination), Quaternion.identity);
+            // Instantiate star with name
+            GameObject star = Instantiate(starPrefab, CoordConversion(right_ascension, declination), Quaternion.identity);
+            star.name = current_star[0];
         }
     }
 
@@ -50,9 +51,9 @@ public class GenerateStars : MonoBehaviour
         Vector3 transform;
         float x, y, z;
 
-        x = Mathf.Sin(right_ascension) * DISTANCE_MOD;
-        y = Mathf.Cos(right_ascension) * DISTANCE_MOD;
-        z = Mathf.Sin(declination) * DISTANCE_MOD;
+        x = Mathf.Cos(right_ascension) * DISTANCE_MOD;
+        y = Mathf.Sin(declination) * DISTANCE_MOD;
+        z = Mathf.Sin(right_ascension) * DISTANCE_MOD;
 
         transform = new Vector3(x, y, z);
 
