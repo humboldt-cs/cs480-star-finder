@@ -15,13 +15,13 @@ public class GenerateStars : MonoBehaviour
         // Split text data by newline
         string[] stars = star_data.text.Split('\n');
 
-        //Loop through star data and instantiate a prefab for each after coordinate conversion
+        // Loop through star data and instantiate a prefab for each after coordinate conversion
         for(int i = 1; i < stars.Length - 1; i++)
         {
             // Split current star data into comma deliminated substrings
             string[] current_star = stars[i].Split(',');
 
-            // Attempt to grab coordinate data
+            // Attempt to grab coordinate data TODO: surround in try/catch to handle exceptions if strings cannot be parsed
             float right_ascension;
             float.TryParse(current_star[1], out right_ascension);
             float declination;
