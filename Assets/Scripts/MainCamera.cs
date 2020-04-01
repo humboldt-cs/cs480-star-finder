@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    // Variable for holding camera FOV
-    private float field_of_view;
-
     // Start is called before the first frame update
     void Start()
     {
-        // Initialize FOV to default value
-        field_of_view = Camera.main.fieldOfView;
+
     }
 
     // Update is called once per frame
@@ -21,15 +17,25 @@ public class MainCamera : MonoBehaviour
         var orientation = new Vector3(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), 0.0f);
         transform.Rotate(orientation);
 
-        // Change FOV with Q/E keys
-        if(Input.GetKey("q"))
-        {
-            field_of_view += 1;
+        // Change FOV with temporary keys q/e
+        Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
+    }
+
+    float Zoom(float fov)
+    {
+        // FOV bounds
+        const int FOV_MAX = 60;
+        const int FOV_MIN = 0;
+
+        // Zoom out
+        if (Input.GetKey("q") && fov < FOV_MAX) {
+            fov += 1;
         }
-        if (Input.GetKey("e"))
-        {
-            field_of_view -= 1;
+        // Zoom in
+        if (Input.GetKey("e") && fov > FOV_MIN) {
+            fov -= 1;
         }
-        Camera.main.fieldOfView = field_of_view;
+
+        return fov;
     }
 }
