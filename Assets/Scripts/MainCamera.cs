@@ -5,24 +5,23 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
 
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // Change orientation of the camera based on arrow key input
-        var orientation = new Vector3(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"), 0.0f);
-        transform.Rotate(orientation);
+        float pitch = Input.GetAxis("Vertical");
+        float yaw = Input.GetAxis("Horizontal");
+        transform.Rotate(Vector3.right * pitch, Space.Self);
+        transform.Rotate(Vector3.up * yaw, Space.World);
 
         // Change FOV with temporary keys q/e
         Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
     }
 
-    float Zoom(float fov)
-    {
+    float Zoom(float fov) {
         // FOV bounds
         const int FOV_MAX = 60;
         const int FOV_MIN = 0;

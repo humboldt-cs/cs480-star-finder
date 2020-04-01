@@ -8,16 +8,14 @@ public class GenerateStars : MonoBehaviour
     public GameObject starPrefab;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         // Grab CSV data from text file
         TextAsset star_data = Resources.Load<TextAsset>("orion");
         // Split text data by newline
         string[] stars = star_data.text.Split('\n');
 
         // Loop through star data and instantiate a prefab for each after coordinate conversion
-        for(int i = 1; i < stars.Length - 1; i++)
-        {
+        for(int i = 1; i < stars.Length - 1; i++) {
             // Split current star data into comma deliminated substrings
             string[] current_star = stars[i].Split(',');
 
@@ -38,15 +36,13 @@ public class GenerateStars : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // Intentionally empty: stars will be fixed
     }
 
     // Conversion from celestial RA and DEC values to a usable transform vector
     // Expected RA/Dec values to be in radians
-    Vector3 CoordConversion(float right_ascension, float declination)
-    {
+    Vector3 CoordConversion(float right_ascension, float declination) {
         const float DISTANCE_MOD = 10.0f; // This value is only for making the scene more managable in Unity editor by moving objects farther from the camera
         Vector3 transform;
         float x, y, z;
@@ -61,8 +57,7 @@ public class GenerateStars : MonoBehaviour
     }
 
     // Conversion from raw RA value to angle in radians for use in sin / cos functions
-    float RightAscensionToRadians(float ra_raw)
-    {
+    float RightAscensionToRadians(float ra_raw) {
         float ra_corrected = Mathf.Abs(ra_raw);
 
         // Grab seconds from raw data and round to nearest second
@@ -87,8 +82,7 @@ public class GenerateStars : MonoBehaviour
     }
 
     // Conversion from raw DEC value to angle in radians for use in sin / cos functions
-    float DeclinationToRadians(float dec_raw)
-    {
+    float DeclinationToRadians(float dec_raw) {
         float dec_corrected = Mathf.Abs(dec_raw);
 
         // Grab arcseconds from raw data and round to nearest arcsecond
