@@ -51,9 +51,9 @@ public class GenerateStars : MonoBehaviour
 
         float x, y, z;
 
-        x = Mathf.Cos(right_ascension) * distance;
+        x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * distance;
+        z = Mathf.Sin(right_ascension) * Mathf.Cos(declination) * distance;
         y = Mathf.Sin(declination) * distance;
-        z = Mathf.Sin(right_ascension) * distance;
 
         return new Vector3(x, y, z);
     }
