@@ -19,18 +19,21 @@ public class GenerateStars : MonoBehaviour
             // Split current star data into comma deliminated substrings
             string[] current_star = stars[i].Split(',');
 
-            // Attempt to grab coordinate data TODO: surround in try/catch to handle exceptions if strings cannot be parsed
             float right_ascension;
-            float.TryParse(current_star[1], out right_ascension);
             float declination;
-            float.TryParse(current_star[2], out declination);
+            float apparent_magnitude;
 
-            // Convert coordinate data to radians
+            // TODO: surround these with try/catch to handle exceptions if strings cannot be parsec
+            float.TryParse(current_star[1], out right_ascension);
+            float.TryParse(current_star[2], out declination);
+            float.TryParse(current_star[3], out apparent_magnitude);
+
+            // Unit conversion
             right_ascension = RightAscensionToRadians(right_ascension);
             declination = DeclinationToRadians(declination);
 
             // Instantiate star with name
-            GameObject star = Instantiate(starPrefab, CoordConversion(right_ascension, declination), Quaternion.identity);
+            GameObject star = Instantiate(starPrefab, CoordConversion(right_ascension, declination, apparent_magnitude), Quaternion.identity);
             star.name = current_star[0];
         }
     }
@@ -42,18 +45,17 @@ public class GenerateStars : MonoBehaviour
 
     // Conversion from celestial RA and DEC values to a usable transform vector
     // Expected RA/Dec values to be in radians
-    Vector3 CoordConversion(float right_ascension, float declination) {
-        const float DISTANCE_MOD = 10.0f; // This value is only for making the scene more managable in Unity editor by moving objects farther from the camera
-        Vector3 transform;
+    Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude) {
+        const float DISTANCE_MIN = 10.0f;
+        float distance = (apparent_magnitude + 1) * DISTANCE_MIN; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
+
         float x, y, z;
 
-        x = Mathf.Cos(right_ascension) * DISTANCE_MOD;
-        y = Mathf.Sin(declination) * DISTANCE_MOD;
-        z = Mathf.Sin(right_ascension) * DISTANCE_MOD;
+        x = Mathf.Cos(right_ascension) * distance;
+        y = Mathf.Sin(declination) * distance;
+        z = Mathf.Sin(right_ascension) * distance;
 
-        transform = new Vector3(x, y, z);
-
-        return transform;
+        return new Vector3(x, y, z);
     }
 
     // Conversion from raw RA value to angle in radians for use in sin / cos functions
