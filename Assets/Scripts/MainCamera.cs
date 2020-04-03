@@ -21,7 +21,7 @@ public class MainCamera : MonoBehaviour
         Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
     }
 
-    float Zoom(float fov) {
+    private float Zoom(float fov) {
         // FOV bounds
         const int FOV_MAX = 60;
         const int FOV_MIN = 0;
