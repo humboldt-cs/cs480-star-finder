@@ -10,7 +10,7 @@ public class GenerateStars : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         // Grab CSV data from text file
-        TextAsset star_data = Resources.Load<TextAsset>("orion");
+        TextAsset star_data = Resources.Load<TextAsset>("bright_stars");
         // Split text data by newline
         string[] stars = star_data.text.Split('\n');
 
