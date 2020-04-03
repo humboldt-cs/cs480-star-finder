@@ -6,16 +6,27 @@ public class MainCamera : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start() {
-
+        
     }
 
     // Update is called once per frame
     void Update() {
         // Change orientation of the camera based on arrow key input
-        float pitch = Input.GetAxis("Vertical");
-        float yaw = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.right * pitch, Space.Self);
-        transform.Rotate(Vector3.up * yaw, Space.World);
+        transform.Rotate(Vector3.right * Input.GetAxis("Vertical"), Space.Self); // pitch
+        transform.Rotate(Vector3.up * Input.GetAxis("Horizontal"), Space.World); // yaw
+
+        // Change orientation of the camera based on touchscreen input
+        // If screen detects touch
+        if(Input.touchCount > 0) {
+            Touch touch = Input.GetTouch(0);
+
+            if(touch.phase == TouchPhase.Moved) {
+                Vector2 change = touch.deltaPosition;
+                float speed = 0.1f;
+                transform.Rotate(Vector3.right * change.y * speed, Space.Self); // pitch
+                transform.Rotate(Vector3.up * -change.x * speed, Space.World); // yaw
+            }
+        }
 
         // Change FOV with temporary keys q/e
         Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
