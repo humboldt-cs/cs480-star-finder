@@ -20,11 +20,40 @@ public class MainCamera : MonoBehaviour
         if(Input.touchCount > 0) {
             Touch touch = Input.GetTouch(0);
 
-            if(touch.phase == TouchPhase.Moved) {
-                Vector2 change = touch.deltaPosition;
-                float speed = 0.1f;
-                transform.Rotate(Vector3.right * change.y * speed, Space.Self); // pitch
-                transform.Rotate(Vector3.up * -change.x * speed, Space.World); // yaw
+            // Rotate camera with single touch
+            if (Input.touchCount == 1)
+            {
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    float rotation_speed = 0.1f; // Speed modifier
+                    transform.Rotate(Vector3.right * touch.deltaPosition.y * rotation_speed, Space.Self); // pitch
+                    transform.Rotate(Vector3.up * -touch.deltaPosition.x * rotation_speed, Space.World); // yaw
+                }
+            }
+
+            // Zoom camera with pinch touch
+            if(Input.touchCount == 2) {
+                // FOV bounds
+                const int FOV_MAX = 60;
+                const int FOV_MIN = 0;
+
+                Touch touch1 = Input.GetTouch(0);
+                Touch touch2 = Input.GetTouch(1);
+
+                int zoom_speed = 2;
+
+                // Zoom out
+                if(Vector2.Distance(touch1.position, touch2.position) > Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition) 
+                    && Camera.main.fieldOfView < FOV_MAX)
+                {
+                    Camera.main.fieldOfView++;
+                }
+                // Zoom in
+                if(Vector2.Distance(touch1.position, touch2.position) < Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition)
+                    && Camera.main.fieldOfView > FOV_MIN)
+                {
+                    Camera.main.fieldOfView--;
+                }
             }
         }
 
@@ -39,11 +68,11 @@ public class MainCamera : MonoBehaviour
 
         // Zoom out
         if (Input.GetKey("q") && fov < FOV_MAX) {
-            fov += 1;
+            fov++;
         }
         // Zoom in
         if (Input.GetKey("e") && fov > FOV_MIN) {
-            fov -= 1;
+            fov--;
         }
 
         return fov;
