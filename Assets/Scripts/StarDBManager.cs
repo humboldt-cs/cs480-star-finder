@@ -1,32 +1,79 @@
 ﻿using System.Collections;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite;
 using System.Data.Common;
 using System.Xml;
-using System.IO;
-
 
 public class StarDBManager : MonoBehaviour
 {
+    // ====================================================
+    // Database table names and descriptions
+    // ====================================================
+    // * indicates primary key
+
+    // Table for holding star positions and magnitudes
+    public const string STAR_POSITIONS = "star_positions";
+    private const string STAR_POSITIONS_DATA_SOURCE = "Assets/Resources/star_positions.xml";
+    // Table name:  star_positions
+    // Columns:     name*       (TEXT data class)       -The standard name for the star, using the HR prefix.
+    //              ra          (REAL data class)       -Right ascension in degrees
+    //              dec         (REAL data class)       -Declination in degrees
+    //              vmag        (REAL data class)       -Photographic magnitude of the star
+
+    // ====================================================
+    // Field definitions
+    // ====================================================
+
     private SQLiteHelper sqlhelper;
+
+    // ====================================================
+    // Methods
+    // ====================================================
 
     // Start is called before the first frame update
     void Start()
     {
-        // create SQL helper object (opens connection to database)
+        // create SQL helper object (opens connection to database, handles db interaction)
         sqlhelper = new SQLiteHelper();
+
+        // Create and populate database tables
+        StarPositionsTable();
+
+        // testing to see if the table was populated
+        DbDataReader dbReader = sqlhelper.QueryDB("SELECT * FROM " + STAR_POSITIONS + " LIMIT 5");
+        string name;
+        string ra;
+        string dec;
+        string vmag;
+        while (dbReader.Read())
+        {
+            name = dbReader[0].ToString();
+            ra = dbReader[1].ToString();
+            dec = dbReader[2].ToString();
+            vmag = dbReader[3].ToString();
+        }
+        
+    }
+
+    // Creates and populates the star_positions table
+    private void StarPositionsTable()
+    {
         // create star data table in db if not already created
-        sqlhelper.ModifyDB("CREATE TABLE IF NOT EXISTS star_data (id INTEGER PRIMARY KEY, name TEXT, alt_name TEXT, ra REAL, dec REAL, vmag REAL)");
+        // sqlhelper.ModifyDB("DROP TABLE IF EXISTS " + STAR_POSITIONS); // This is for testing, comment out if not testing
+        sqlhelper.ModifyDB("CREATE TABLE IF NOT EXISTS " + STAR_POSITIONS
+                           + " (name TEXT PRIMARY KEY, "
+                           + "ra REAL, "
+                           + "dec REAL, "
+                           + "vmag REAL)");
         // check to see if table is already populated
-        DbDataReader dbReader = sqlhelper.QueryDB("SELECT * FROM star_data");
+        DbDataReader dbReader = sqlhelper.QueryDB("SELECT * FROM " + STAR_POSITIONS);
         // if the table is empty, read rows from xml file
         if (!dbReader.HasRows)
         {
             dbReader.Close();
             // open xml file and read rows into database
-            XmlTextReader xmlReader = new XmlTextReader("Assets/Resources/votable.xml");
+            XmlTextReader xmlReader = new XmlTextReader(STAR_POSITIONS_DATA_SOURCE);
             List<string> xmlDataRow;
             while (xmlReader.Read())
             {
@@ -35,48 +82,30 @@ public class StarDBManager : MonoBehaviour
                     if (xmlReader.Name == "TR")
                     {
                         xmlDataRow = xmlReadRow(xmlReader);
-                        string insert_row_statement = "INSERT INTO star_data VALUES ("
-                                                      + xmlDataRow[0] + ",'"
-                                                      + xmlDataRow[1] + "','"
-                                                      + xmlDataRow[2] + "',"
+                        string insert_row_statement = "INSERT INTO " + STAR_POSITIONS
+                                                      + " VALUES ('"
+                                                      + xmlDataRow[1] + "',"
+                                                      + xmlDataRow[2] + ","
                                                       + xmlDataRow[3] + ","
-                                                      + xmlDataRow[4] + ","
-                                                      + xmlDataRow[5] + ")";
+                                                      + xmlDataRow[4] + ")";
                         try
                         {
                             sqlhelper.ModifyDB(insert_row_statement);
                         }
                         catch
                         {
+                            Debug.Log("skipped row in " + STAR_POSITIONS_DATA_SOURCE + ": "+ xmlDataRow[0]);
                             continue;
                         }
-                        
+
                     }
-                } 
+                }
             }
         }
-
         dbReader.Close();
-        // this is just to test that its working
-        DbDataReader dbReader2 = sqlhelper.QueryDB("SELECT * FROM star_data");
-        string id;
-        string name;
-        string alt_name;
-        string ra;
-        string dec;
-        string vmag;
-        while (dbReader2.Read())
-            {
-                id = dbReader2[0].ToString();
-                name = dbReader2[1].ToString();
-                alt_name = dbReader2[2].ToString();
-                ra = dbReader2[3].ToString();
-                dec = dbReader2[4].ToString();
-                vmag = dbReader2[5].ToString();
-            }
     }
 
-    // healper for reading stardata.xml table rows
+    // healper for extracting data from star_positions.xml
     private List<string> xmlReadRow(XmlTextReader xmlReader)
     {
         List<string> data_row = new List<string> { };
