@@ -85,12 +85,14 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 
 ### Models
 
+MainScene
+
 | Property      | Type          | Description   |
 | ------------- | ------------- | ------------- |
-| Content Cell  | Content Cell  | Content Cell  | 
-| Content Cell  | Content Cell  | Content Cell  | 
+| Main Camera  | GameObject  | Serves as user's POV  | 
+| Directional Light  | GameObject  | Serves to determine the shadowing of the MainScene  | 
+| Horizon  | GameObject | Serves as the "Earth" and "Horizon", to let the user know where the constellations are relative to their POV |
 
-Rendered table
 
 ### Networking
 - [Add list of network requests by screen ]
