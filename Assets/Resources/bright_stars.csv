@@ -1,0 +1,23 @@
+﻿Star Name,RA,Declination, Apparent Magnitude,Constellation
+Betelgeuse,55510.3,72425.4,0.42,Orion
+Rigel,51432.3,-81205.9,0.18,Orion
+Bellatrix,52507.9,62058.9,1.64,Orion
+Mintaka,53200.4,-1756.7,2.2,Orion
+Alnilam,53612.8,-11206.9,1.69,Orion
+Alnitak,54045.5,-15634.3,1.88,Orion
+Saiph,54745.4,-94010.6,2.07,Orion
+Meissa,53508.3,95602.9,3.47,Orion
+Dubhe,110343.7,614503.7,1.79,Ursa Major
+Merak,110150.5,552256.7,2.37,Ursa Major
+Phecda,115349.8,534141.1,2.44,Ursa Major
+Megrez,121525.6,570157.4,3.31,Ursa Major
+Alioth,125401.8,555735.4,1.77,Ursa Major
+Mizar,132355.5,545531.3,2.04,Ursa Major
+Alkaid,134732.4,491847.8,1.86,Ursa Major
+Polaris,23147.1,891550.9,1.97,Ursa Minor
+Kochab,145042.4,740919.7,2.07,Ursa Minor
+Pherkad,152043.8,715002.3,3.04,Ursa Minor
+Epsilon Ursae Minoris,164558.2,820214.1,4.21,Ursa Minor
+Zeta Ursae Minoris,154403.5,774740.2,4.32,Ursa Minor
+Yildun,173213,863511.3,4.36,Ursa Minor
+Eta Ursae Minoris,161730.3,754519.2,4.95,Ursa Minor

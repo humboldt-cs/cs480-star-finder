@@ -8,61 +8,58 @@ public class GenerateStars : MonoBehaviour
     public GameObject starPrefab;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         // Grab CSV data from text file
-        TextAsset star_data = Resources.Load<TextAsset>("orion");
+        TextAsset star_data = Resources.Load<TextAsset>("bright_stars");
         // Split text data by newline
         string[] stars = star_data.text.Split('\n');
 
         // Loop through star data and instantiate a prefab for each after coordinate conversion
-        for(int i = 1; i < stars.Length - 1; i++)
-        {
+        for(int i = 1; i < stars.Length - 1; i++) {
             // Split current star data into comma deliminated substrings
             string[] current_star = stars[i].Split(',');
 
-            // Attempt to grab coordinate data TODO: surround in try/catch to handle exceptions if strings cannot be parsed
             float right_ascension;
-            float.TryParse(current_star[1], out right_ascension);
             float declination;
-            float.TryParse(current_star[2], out declination);
+            float apparent_magnitude;
 
-            // Convert coordinate data to radians
+            // TODO: surround these with try/catch to handle exceptions if strings cannot be parsec
+            float.TryParse(current_star[1], out right_ascension);
+            float.TryParse(current_star[2], out declination);
+            float.TryParse(current_star[3], out apparent_magnitude);
+
+            // Unit conversion
             right_ascension = RightAscensionToRadians(right_ascension);
             declination = DeclinationToRadians(declination);
 
             // Instantiate star with name
-            GameObject star = Instantiate(starPrefab, CoordConversion(right_ascension, declination), Quaternion.identity);
+            GameObject star = Instantiate(starPrefab, CoordConversion(right_ascension, declination, apparent_magnitude), Quaternion.identity);
             star.name = current_star[0];
         }
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         // Intentionally empty: stars will be fixed
     }
 
     // Conversion from celestial RA and DEC values to a usable transform vector
     // Expected RA/Dec values to be in radians
-    Vector3 CoordConversion(float right_ascension, float declination)
-    {
-        const float DISTANCE_MOD = 10.0f; // This value is only for making the scene more managable in Unity editor by moving objects farther from the camera
-        Vector3 transform;
+    Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude) {
+        const float DISTANCE_MIN = 10.0f;
+        float distance = (apparent_magnitude + 1) * DISTANCE_MIN; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
+
         float x, y, z;
 
-        x = Mathf.Cos(right_ascension) * DISTANCE_MOD;
-        y = Mathf.Sin(declination) * DISTANCE_MOD;
-        z = Mathf.Sin(right_ascension) * DISTANCE_MOD;
+        x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * distance;
+        z = Mathf.Sin(right_ascension) * Mathf.Cos(declination) * distance;
+        y = Mathf.Sin(declination) * distance;
 
-        transform = new Vector3(x, y, z);
-
-        return transform;
+        return new Vector3(x, y, z);
     }
 
     // Conversion from raw RA value to angle in radians for use in sin / cos functions
-    float RightAscensionToRadians(float ra_raw)
-    {
+    float RightAscensionToRadians(float ra_raw) {
         float ra_corrected = Mathf.Abs(ra_raw);
 
         // Grab seconds from raw data and round to nearest second
@@ -87,8 +84,7 @@ public class GenerateStars : MonoBehaviour
     }
 
     // Conversion from raw DEC value to angle in radians for use in sin / cos functions
-    float DeclinationToRadians(float dec_raw)
-    {
+    float DeclinationToRadians(float dec_raw) {
         float dec_corrected = Mathf.Abs(dec_raw);
 
         // Grab arcseconds from raw data and round to nearest arcsecond
