@@ -93,8 +93,8 @@ MainScene
 | Directional Light  | GameObject  | Serves to determine the shadowing of the MainScene  | 
 | Horizon  | GameObject | Serves as the "Earth" and "Horizon", to let the user know where the constellations are relative to their POV |
 | UI | GameObject | Serves as user interface, for selecting different menus |
-| Star | GameObject | Represents a star in the night sky |
-| EventSystem | GameObject | |
+| Star | Prefab | Represents a star in the night sky |
+| EventSystem | GameObject | Responsible for processing and handling events in a Unity scene |
 
 ### Networking
 - [Add list of network requests by screen ]
