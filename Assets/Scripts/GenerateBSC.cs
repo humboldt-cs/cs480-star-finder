@@ -27,14 +27,15 @@ public class GenerateBSC : MonoBehaviour
         // Main loop through catalog
         for(int i = CATALOG_START; i < bsc_data.Length; i += bytes_per_star)
         {
-            int catalog_num = System.BitConverter.ToInt32(bsc_data, i);
-            double ra_raw = System.BitConverter.ToDouble(bsc_data, i + 4);
-            double declination_raw = System.BitConverter.ToDouble(bsc_data, i + 12);
+            // Grab relavent data from star entry
+            float catalog_num = System.BitConverter.ToSingle(bsc_data, i);                                  // Bytes 0-3
+            float right_ascension = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 4)); // Bytes 4-11.  Includes double -> float conversion
+            float declination = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 12));    // Bytes 12-19. Includes double -> float conversion
+            float magnitude = System.BitConverter.ToInt16(bsc_data, i + 22) / 100.0f;                       // Bytes 22-24. Includes conversion to decimal value
 
-            float ra_corrected = System.Convert.ToSingle(ra_raw);
-            float declination_corrected = System.Convert.ToSingle(declination_raw);
+            Vector3 position = CoordConversion(right_ascension, declination, magnitude);
 
-            GameObject star = Instantiate(star_prefab, CoordConversion(ra_corrected, declination_corrected, 1.0f), Quaternion.identity);
+            GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
             star.name = catalog_num.ToString();
         }
     }
@@ -49,8 +50,7 @@ public class GenerateBSC : MonoBehaviour
     // Expected RA/Dec values to be in radians
     Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude)
     {
-        const float DISTANCE_MIN = 10.0f;
-        float distance = (apparent_magnitude + 1) * DISTANCE_MIN; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
+        float distance = (apparent_magnitude + 1.47f) * 10.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
 
         float x, y, z;
 
