@@ -6,10 +6,9 @@ public class GenerateBSC : MonoBehaviour
 {
     // Star data provided by Yale Bright Star Catalog
     // URL: http://tdc-www.harvard.edu/catalogs/bsc5.html
-    // BSC5 uses custom binary format. Specs: http://tdc-www.harvard.edu/catalogs/catalogsb.html 
+    // BSC5 uses custom binary format. Specs: http://tdc-www.harvard.edu/catalogs/catalogsb.html
 
-    private static string bsc_path = "Assets/Resources/YBSC";
-    private static byte[] bsc_data = System.IO.File.ReadAllBytes(bsc_path);
+    private static byte[] bsc_data;
 
     private const int CATALOG_START = 28;
 
@@ -18,6 +17,11 @@ public class GenerateBSC : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        TextAsset catalog = Resources.Load<TextAsset>("YBSC");
+
+        bsc_data = catalog.bytes;
+
         // Metadata: catalog headers
         int[] catalog_headers = getCatalogHeaders(bsc_data);
 
@@ -73,7 +77,7 @@ public class GenerateBSC : MonoBehaviour
     // Expected RA/Dec values to be in radians
     private Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude)
     {
-        float distance = (apparent_magnitude + 1.47f) * 10.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
+        float distance = Mathf.Pow(2, apparent_magnitude) + 20.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
 
         float x, y, z;
 
