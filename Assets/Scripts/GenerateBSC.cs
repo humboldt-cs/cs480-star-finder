@@ -11,11 +11,32 @@ public class GenerateBSC : MonoBehaviour
     private static string bsc_path = "Assets/Resources/YBSC";
     private static byte[] bsc_data = System.IO.File.ReadAllBytes(bsc_path);
 
+    private const int CATALOG_START = 28;
+
+    public GameObject star_prefab;
+
     // Start is called before the first frame update
     void Start()
     {
+        // Metadata: catalog headers
+        int[] catalog_headers = getCatalogHeaders(bsc_data);
 
-        int temp = 0;
+        // Catalog entry size
+        int bytes_per_star = catalog_headers[6];
+
+        // Main loop through catalog
+        for(int i = CATALOG_START; i < bsc_data.Length; i += bytes_per_star)
+        {
+            int catalog_num = System.BitConverter.ToInt32(bsc_data, i);
+            double ra_raw = System.BitConverter.ToDouble(bsc_data, i + 4);
+            double declination_raw = System.BitConverter.ToDouble(bsc_data, i + 12);
+
+            float ra_corrected = System.Convert.ToSingle(ra_raw);
+            float declination_corrected = System.Convert.ToSingle(declination_raw);
+
+            GameObject star = Instantiate(star_prefab, CoordConversion(ra_corrected, declination_corrected, 1.0f), Quaternion.identity);
+            star.name = catalog_num.ToString();
+        }
     }
 
     // Update is called once per frame
