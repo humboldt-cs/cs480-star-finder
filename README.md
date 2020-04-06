@@ -82,9 +82,16 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 <img src="https://i.imgur.com/LF05z61.gif">
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+
+| Property      | Type          | Description   |
+| ------------- | ------------- | ------------- |
+| Content Cell  | Content Cell  | Content Cell  | 
+| Content Cell  | Content Cell  | Content Cell  | 
+
+Rendered table
+
 ### Networking
 - [Add list of network requests by screen ]
 - [Create basic snippets for each Parse network request]
