@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
@@ -701,6 +702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   star_prefab: {fileID: 3585331119455566343, guid: afe92beb874bc5749966589618f108dd,
     type: 3}
+--- !u!114 &963194231
 --- !u!1 &1144685981
 GameObject:
   m_ObjectHideFlags: 0
