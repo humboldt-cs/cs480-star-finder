@@ -92,7 +92,15 @@ MainScene
 | Main Camera  | GameObject  | Serves as user's POV  | 
 | Directional Light  | GameObject  | Serves to determine the shadowing of the MainScene  | 
 | Horizon  | GameObject | Serves as the "Earth" and "Horizon", to let the user know where the constellations are relative to their POV |
-
+| UI | GameObject | Serves as user interface, for selecting different menus |
+| Star | GameObject | Represents a star in the night sky |
+| EventSystem | GameObject | |
+| GenerateBSC | C# Script  | Generates a large number of stars using data gathered from the Yale Bright Star Catalog |
+| GyroCamera | C# Script | Synchronizes the camera's rotation with that of the user's phone, using the phone's gyroscope |
+| MainCamera | C# Script | Allows user to move camera with touchscreen/arrow inputs (for devices without gyroscopes) |
+| SQLiteHelper | C# Script | Queries the Yale Bright Star Catalog for star data |
+| Star | C# Script | Rotates each star to face the camera as the latter moves |
+| StarDBManager | C# Script | Manages the database of collected star data |
 
 ### Networking
 - [Add list of network requests by screen ]
