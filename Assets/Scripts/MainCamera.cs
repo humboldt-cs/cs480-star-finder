@@ -40,8 +40,6 @@ public class MainCamera : MonoBehaviour
                 Touch touch1 = Input.GetTouch(0);
                 Touch touch2 = Input.GetTouch(1);
 
-                int zoom_speed = 2;
-
                 // Zoom out
                 if(Vector2.Distance(touch1.position, touch2.position) > Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition) 
                     && Camera.main.fieldOfView < FOV_MAX)
@@ -57,7 +55,7 @@ public class MainCamera : MonoBehaviour
             }
         }
 
-        // Change FOV with temporary keys q/e
+        // Change FOV with keys q/e
         Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
     }
 
