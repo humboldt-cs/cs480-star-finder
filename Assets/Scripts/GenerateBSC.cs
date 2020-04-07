@@ -38,10 +38,10 @@ public class GenerateBSC : MonoBehaviour
     // Grabs the first 28 bytes of catalog data.
     // Value specifications are given here: http://tdc-www.harvard.edu/catalogs/catalogsb.html
     private int[] getCatalogHeaders(byte[] catalog_data) {
-        byte[] headers = new byte[28];
+        byte[] headers = new byte[CATALOG_START];
 
         // Grab raw bytes
-        for (int i = 0; i < headers.Length; i++)
+        for (int i = 0; i < CATALOG_START; i++)
         {
             headers[i] = bsc_data[i];
         }

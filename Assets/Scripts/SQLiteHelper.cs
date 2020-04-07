@@ -6,12 +6,12 @@ using Mono.Data.Sqlite;
 
 namespace SQLite
 {
-    // This class allows the user to connect to the Bright Star Database and modify/query it.
+    // This class allows the user to connect to the local Bright Star Database and modify/query it.
     // Be sure to close any database readers returned by the QueryDB method before calling other
     // methods on the same SQLiteHelper object
     public class SQLiteHelper
     {
-        // database fields
+        // SQLiteHelper Fields
         private const string DBNAME = "Bright_Star_Database";
         private DbConnection dbConnection;
         private DbCommand dbCommand;
@@ -20,7 +20,8 @@ namespace SQLite
         public SQLiteHelper()
         {
             // Create / open connection to local bright star database
-            dbConnection = new SqliteConnection("URI=file:" + Application.persistentDataPath + "/" + DBNAME);
+            string db_path = "URI=file:" + Application.persistentDataPath + "/" + DbNames.DATABASE_NAME;
+            dbConnection = new SqliteConnection(db_path);
             dbConnection.Open();
             dbCommand = dbConnection.CreateCommand();
         }
