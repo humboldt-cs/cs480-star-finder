@@ -8,9 +8,8 @@ public class GenerateBSC : MonoBehaviour
     // URL: http://tdc-www.harvard.edu/catalogs/bsc5.html
     // BSC5 uses custom binary format. Specs: http://tdc-www.harvard.edu/catalogs/catalogsb.html
 
-    private static byte[] bsc_data;
-
     private const int CATALOG_START = 28;
+    private static string catalog_resource = "YBSC";
 
     public GameObject star_prefab;
 
@@ -18,15 +17,15 @@ public class GenerateBSC : MonoBehaviour
     void Start()
     {
 
-        TextAsset catalog = Resources.Load<TextAsset>("YBSC");
+        TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
 
-        bsc_data = catalog.bytes;
+        byte[] bsc_data = catalog.bytes;
 
         // Metadata: catalog headers
         int[] catalog_headers = getCatalogHeaders(bsc_data);
 
         // Main loop through catalog
-        generateStars(star_prefab);
+        generateStars(bsc_data, star_prefab);
     }
 
     // Update is called once per frame
@@ -43,7 +42,7 @@ public class GenerateBSC : MonoBehaviour
         // Grab raw bytes
         for (int i = 0; i < CATALOG_START; i++)
         {
-            headers[i] = bsc_data[i];
+            headers[i] = catalog_data[i];
         }
 
         // Convert 28 bytes to seven 32-bit ints
@@ -56,7 +55,7 @@ public class GenerateBSC : MonoBehaviour
         return header_values;
     }
 
-    private void generateStars(GameObject star_prefab) {
+    private void generateStars(byte[] bsc_data, GameObject star_prefab) {
         for (int i = CATALOG_START; i < bsc_data.Length; i += 32)
         {
             // Grab relavent data from star entry
