@@ -90,16 +90,16 @@ MainScene
 | Property      | Type          | Description   |
 | ------------- | ------------- | ------------- |
 | Main Camera  | GameObject  | Serves as user's POV  | 
-| Directional Light  | GameObject  | Serves to determine the shadowing of the MainScene  | 
+| Directional Light  | GameObject  | Serves to determine the lighting of the MainScene  | 
 | Horizon  | GameObject | Serves as the "Earth" and "Horizon", to let the user know where the constellations are relative to their POV |
-| UI | GameObject | Serves as user interface, for selecting different menus and searching for specific stars |
+| UI | GameObject | Serves as user interface in main star view, allows user access to the menu systems |
+| Menu | Prefab | 2D canvas with child elements (buttons, toggles etc.) to allow the user to change app settings
 | Star | Prefab | Represents a star in the night sky |
 | EventSystem | GameObject | Responsible for processing and handling events in a Unity scene |
 
 ### Networking
 
 * Main Scene
-  * (Read/GET) Query Yale Bright Star Catalog for star data. To be implemented later, we're currently just using local files full of data.
-  * (Update/PUT) Add data to the SQL Database. 
-  * (Create/POST) Create/instantiate a new "Star" prefab.
-  * (Update/PUT) Add star data to each "Star" prefab.
+  * (Read/GET) Query local SQL database populated with Yale Bright Star Catalog data
+  * (Update/PUT) Populate local SQL database with Yale Bright Star Catalog data
+  * (Read/GET) Query NASA JPL's HORIZON telnet database to grab ephemerides data on solar system objects
