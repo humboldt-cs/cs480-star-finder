@@ -100,6 +100,7 @@ MainScene
 
 * Main Scene
   * (Read/GET) Query Yale Bright Star Catalog for star data. 
+  '''C#
     private void generateStars(GameObject star_prefab) {
         for (int i = CATALOG_START; i < bsc_data.Length; i += 32)
         {
@@ -113,6 +114,7 @@ MainScene
             star.name = catalog_num.ToString();
         }
     }
+    '''
   * (Update/PUT) Add data to the SQL Database. 
   * (Create/POST) Create/instantiate a new "Star" prefab.
   * (Update/PUT) Add star data to each "Star" prefab.
