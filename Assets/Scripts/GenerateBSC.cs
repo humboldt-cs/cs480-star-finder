@@ -6,23 +6,26 @@ public class GenerateBSC : MonoBehaviour
 {
     // Star data provided by Yale Bright Star Catalog
     // URL: http://tdc-www.harvard.edu/catalogs/bsc5.html
-    // BSC5 uses custom binary format. Specs: http://tdc-www.harvard.edu/catalogs/catalogsb.html 
-
-    private static string bsc_path = "Assets/Resources/YBSC";
-    private static byte[] bsc_data = System.IO.File.ReadAllBytes(bsc_path);
+    // BSC5 uses custom binary format. Specs: http://tdc-www.harvard.edu/catalogs/catalogsb.html
 
     private const int CATALOG_START = 28;
+    private static string catalog_resource = "YBSC";
 
     public GameObject star_prefab;
 
     // Start is called before the first frame update
     void Start()
     {
+
+        TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
+
+        byte[] bsc_data = catalog.bytes;
+
         // Metadata: catalog headers
         int[] catalog_headers = getCatalogHeaders(bsc_data);
 
         // Main loop through catalog
-        generateStars(star_prefab);
+        generateStars(bsc_data, star_prefab);
     }
 
     // Update is called once per frame
@@ -34,12 +37,12 @@ public class GenerateBSC : MonoBehaviour
     // Grabs the first 28 bytes of catalog data.
     // Value specifications are given here: http://tdc-www.harvard.edu/catalogs/catalogsb.html
     private int[] getCatalogHeaders(byte[] catalog_data) {
-        byte[] headers = new byte[28];
+        byte[] headers = new byte[CATALOG_START];
 
         // Grab raw bytes
-        for (int i = 0; i < headers.Length; i++)
+        for (int i = 0; i < CATALOG_START; i++)
         {
-            headers[i] = bsc_data[i];
+            headers[i] = catalog_data[i];
         }
 
         // Convert 28 bytes to seven 32-bit ints
@@ -52,7 +55,7 @@ public class GenerateBSC : MonoBehaviour
         return header_values;
     }
 
-    private void generateStars(GameObject star_prefab) {
+    private void generateStars(byte[] bsc_data, GameObject star_prefab) {
         for (int i = CATALOG_START; i < bsc_data.Length; i += 32)
         {
             // Grab relavent data from star entry
@@ -73,7 +76,7 @@ public class GenerateBSC : MonoBehaviour
     // Expected RA/Dec values to be in radians
     private Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude)
     {
-        float distance = (apparent_magnitude + 1.47f) * 10.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
+        float distance = Mathf.Pow(2, apparent_magnitude) + 20.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
 
         float x, y, z;
 

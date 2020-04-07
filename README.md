@@ -82,10 +82,24 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 <img src="https://i.imgur.com/LF05z61.gif">
 
 ## Schema 
-[This section will be completed in Unit 9]
+
 ### Models
-[Add table of models]
+
+MainScene
+
+| Property      | Type          | Description   |
+| ------------- | ------------- | ------------- |
+| Main Camera  | GameObject  | Serves as user's POV  | 
+| Directional Light  | GameObject  | Serves to determine the lighting of the MainScene  | 
+| Horizon  | GameObject | Serves as the "Earth" and "Horizon", to let the user know where the constellations are relative to their POV |
+| UI | GameObject | Serves as user interface in main star view, allows user access to the menu systems |
+| Menu | Prefab | 2D canvas with child elements (buttons, toggles etc.) to allow the user to change app settings
+| Star | Prefab | Represents a star in the night sky |
+| EventSystem | GameObject | Responsible for processing and handling events in a Unity scene |
+
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+* Main Scene
+  * (Read/GET) Query local SQL database populated with Yale Bright Star Catalog data
+  * (Update/PUT) Populate local SQL database with Yale Bright Star Catalog data
+  * (Read/GET) Query NASA JPL's HORIZON telnet database to grab ephemerides data on solar system objects
