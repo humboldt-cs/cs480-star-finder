@@ -74,7 +74,7 @@ namespace SQLite
                     float right_ascension = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 4)); // Bytes 4-11.  Includes double -> float conversion
                     float declination = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 12));    // Bytes 12-19. Includes double -> float conversion
                     float magnitude = System.BitConverter.ToInt16(bsc_data, i + 22) / 100.0f;                       // Bytes 22-24. Includes conversion to decimal value
-
+                    
                     // insert into database
                     string insert_row_statement = "INSERT INTO " + DbNames.STAR_POSITIONS
                                                           + " VALUES ("

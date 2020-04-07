@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SQLite;
+using UnityEngine.SceneManagement;
 
 public class AppLoader : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class AppLoader : MonoBehaviour
     {
         databaseLoader = new DatabaseLoader();
         databaseLoader.LoadData();
+        SceneManager.LoadScene("PeterScene");
     }
 
     // Update is called once per frame
