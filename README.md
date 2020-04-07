@@ -97,6 +97,22 @@ MainScene
 | EventSystem | GameObject | Responsible for processing and handling events in a Unity scene |
 
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+* Main Scene
+  * (Read/GET) Query Yale Bright Star Catalog for star data. 
+    private void generateStars(GameObject star_prefab) {
+        for (int i = CATALOG_START; i < bsc_data.Length; i += 32)
+        {
+            // Grab relavent data from star entry
+            float catalog_num = System.BitConverter.ToSingle(bsc_data, i);                                 
+            float right_ascension = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 4)); 
+            float declination = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 12));    
+            float magnitude = System.BitConverter.ToInt16(bsc_data, i + 22) / 100.0f;                       
+            Vector3 position = CoordConversion(right_ascension, declination, magnitude);
+            GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
+            star.name = catalog_num.ToString();
+        }
+    }
+  * (Update/PUT) Add data to the SQL Database. 
+  * (Create/POST) Create/instantiate a new "Star" prefab.
+  * (Update/PUT) Add star data to each "Star" prefab.
