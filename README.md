@@ -92,14 +92,14 @@ MainScene
 | Main Camera  | GameObject  | Serves as user's POV  | 
 | Directional Light  | GameObject  | Serves to determine the shadowing of the MainScene  | 
 | Horizon  | GameObject | Serves as the "Earth" and "Horizon", to let the user know where the constellations are relative to their POV |
-| UI | GameObject | Serves as user interface, for selecting different menus |
+| UI | GameObject | Serves as user interface, for selecting different menus and searching for specific stars |
 | Star | Prefab | Represents a star in the night sky |
 | EventSystem | GameObject | Responsible for processing and handling events in a Unity scene |
 
 ### Networking
 
 * Main Scene
-  * (Read/GET) Query Yale Bright Star Catalog for star data. To be implemented later.
+  * (Read/GET) Query Yale Bright Star Catalog for star data. To be implemented later, we're currently just using local files full of data.
   * (Update/PUT) Add data to the SQL Database. 
   * (Create/POST) Create/instantiate a new "Star" prefab.
   * (Update/PUT) Add star data to each "Star" prefab.
