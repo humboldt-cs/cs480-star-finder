@@ -32,7 +32,7 @@ public static class StarMath
         // Convert deg:arcminutes:arcseconds to radians
         float radians = ((deg / 360) + (arcmin / 21600) + (arcsec / 1296000)) * Mathf.PI * 2;
 
-        // Convert to negative value if necessary
+        // Make dec negative if appropriate
         if(sign == '-')
         {
             radians *= -1;
