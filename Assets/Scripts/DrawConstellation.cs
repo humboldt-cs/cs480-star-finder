@@ -6,17 +6,27 @@ public class DrawConstellation : MonoBehaviour
 {
     private const string position_resource = "orion";
 
+    public LineRenderer constellation_line;
+
     // Start is called before the first frame update
     void Start()
     {
         TextAsset star_position_data = Resources.Load<TextAsset>(position_resource);
         string[] stars = star_position_data.text.Split('\n');
 
-        // Generate lines, this sequence is hard-coded to display orion, will refactor to a method for arbitrary sequence input
+        Vector3[] positions = new Vector3[stars.Length - 1];
+
+        // Grab vertex positions
         for(int i = 1; i < stars.Length; i++)
         {
             string[] current_star = stars[i].Split(',');
+            positions[i - 1] = GetVertexPosition(current_star);
         }
+
+        LineRenderer line = Instantiate(constellation_line);
+
+        line.positionCount = positions.Length;
+        line.SetPositions(positions);
     }
 
     // Update is called once per frame
