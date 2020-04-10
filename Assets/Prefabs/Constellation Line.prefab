@@ -71,14 +71,9 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 1.9505217, y: -1.4265726, z: 9.703626}
-  - {x: 0.20890938, y: 1.2891723, z: 9.914353}
-  - {x: 1.5062788, y: 1.1059685, z: 9.823847}
-  - {x: 1.0357907, y: -0.20975865, z: 9.944}
   - {x: 0.8380929, y: -0.3389798, z: 9.959051}
-  - {x: 0.52638257, y: -1.6796656, z: 9.8438635}
-  - {x: 1.2183913, y: 0.046701934, z: 9.925389}
-  - {x: 1.0664494, y: 1.7251651, z: 9.792165}
+  - {x: 1.0357907, y: -0.20975865, z: 9.944}
+  - {x: 1.218388, y: -0.052199654, z: 9.925362}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.1
@@ -86,8 +81,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 1
+        time: 0.5013752
+        value: 0.08642197
         inSlope: 0
         outSlope: 0
         tangentMode: 0

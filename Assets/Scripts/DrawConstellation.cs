@@ -1,32 +1,47 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DrawConstellation : MonoBehaviour
 {
-    private const string position_resource = "orion";
+    private const string CONSTELLATION_NODES_FILE = "constellation_star_nodes";
+    private const string CONSTELLATION_LINES_FILE = "constellation_lines";
 
     public LineRenderer constellation_line;
 
     // Start is called before the first frame update
     void Start()
     {
-        TextAsset star_position_data = Resources.Load<TextAsset>(position_resource);
-        string[] stars = star_position_data.text.Split('\n');
+        TextAsset nodes_lines = Resources.Load<TextAsset>(CONSTELLATION_NODES_FILE);
+        TextAsset lines_lines= Resources.Load<TextAsset>(CONSTELLATION_LINES_FILE);
 
-        Vector3[] positions = new Vector3[stars.Length - 1];
+        string[] nodes = nodes_lines.text.Split('\n');
+        string[] lines = lines_lines.text.Split('\n');
 
-        // Grab vertex positions
-        for(int i = 1; i < stars.Length; i++)
+        // Loop through constellation lines and set line vertices 
+        for(int i = 1; i < lines.Length - 1; i++)
         {
-            string[] current_star = stars[i].Split(',');
-            positions[i - 1] = GetVertexPosition(current_star);
+            // String formatting
+            lines[i] = lines[i].Trim('\r');
+            string[] current_line = lines[i].Split(',');
+            string[] star_sequence = current_line[1].Split('-');
+
+            // Set number of nodes
+            constellation_line.positionCount = star_sequence.Length;
+
+            // Loop through nodes and find positions
+            for(int j = 0; j < star_sequence.Length; j++)
+            {
+                // If value is valid, find star, find position, set vertex
+                string[] star = FindStar(nodes, star_sequence[j]);
+                Vector3 node_position = GetVertexPosition(star);
+                constellation_line.SetPosition(j, node_position);
+            }
+
+            // Draw line after all vertices positions are set
+            Instantiate(constellation_line);
         }
-
-        LineRenderer line = Instantiate(constellation_line);
-
-        line.positionCount = positions.Length;
-        line.SetPositions(positions);
     }
 
     // Update is called once per frame
@@ -35,9 +50,30 @@ public class DrawConstellation : MonoBehaviour
         
     }
 
+    // Finds and returns star data string for star with given unique star_id
+    string[] FindStar(string[] stars, string star_id)
+    {
+        // Loop through stars and find star with id
+        for(int i = 0; i < stars.Length; i++)
+        {
+            stars[i].Trim('\r');
+            string[] current_star = stars[i].Split(',');
+
+            // Star found
+            if(current_star[0] == star_id)
+            {
+                return current_star;
+            }
+        }
+
+        // Star not found
+        return null;
+    }
+
+    // Converts star string data into usable transform vector
     Vector3 GetVertexPosition(string[] star)
     {
-        Vector3 position = Vector3.up;
+        Vector3 position;
 
         float ra_hrs = System.Convert.ToSingle(star[2]);
         float ra_min = System.Convert.ToSingle(star[3]);

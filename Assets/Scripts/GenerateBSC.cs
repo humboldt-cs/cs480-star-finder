@@ -13,8 +13,7 @@ public class GenerateBSC : MonoBehaviour
 
     public GameObject star_prefab;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
         TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
@@ -26,6 +25,11 @@ public class GenerateBSC : MonoBehaviour
 
         // Main loop through catalog
         generateStars(bsc_data, star_prefab);
+    }
+
+    private void Start()
+    {
+        
     }
 
     // Update is called once per frame
