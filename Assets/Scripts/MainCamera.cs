@@ -27,7 +27,7 @@ public class MainCamera : MonoBehaviour
                 {
                     float rotation_speed = 0.1f; // Speed modifier
                     transform.Rotate(Vector3.right * touch.deltaPosition.y * rotation_speed, Space.Self); // pitch
-                    transform.Rotate(Vector3.up * -touch.deltaPosition.x * rotation_speed, Space.World); // yaw
+                    transform.Rotate(Vector3.up * -touch.deltaPosition.x * rotation_speed, Space.Self); // yaw
                 }
             }
 
