@@ -32,7 +32,7 @@ public class BigBang: MonoBehaviour
             dec = System.Convert.ToSingle(dbReader[2]);
             mag = System.Convert.ToSingle(dbReader[3]);
 
-            position = CoordConversion(ra, dec, mag);
+            position = StarMath.CoordConversion(ra, dec, mag);
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
 
@@ -46,20 +46,5 @@ public class BigBang: MonoBehaviour
     void Update()
     {
         
-    }
-
-    // Conversion from celestial RA and DEC values to a usable transform vector
-    // Expected RA/Dec values to be in radians
-    private Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude)
-    {
-        float distance = Mathf.Pow(2, apparent_magnitude) + 20.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
-
-        float x, y, z;
-
-        x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * distance;
-        z = Mathf.Sin(right_ascension) * Mathf.Cos(declination) * distance;
-        y = Mathf.Sin(declination) * distance;
-
-        return new Vector3(x, y, z);
     }
 }
