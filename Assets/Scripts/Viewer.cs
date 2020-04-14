@@ -7,7 +7,7 @@ public class Viewer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.Rotate(GPSOrientation.getRotation(0, 90, 0), Space.World);
+        transform.Rotate(GPSOrientation.getRotation(30.0f, 0.0f, 0.0f));
     }
 
     // Update is called once per frame
