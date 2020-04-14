@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
+    // FOV bounds
+    private const int FOV_MAX = 60;
+    private const int FOV_MIN = 0;
+    
     // Start is called before the first frame update
     void Start() {
 
@@ -33,10 +37,6 @@ public class MainCamera : MonoBehaviour
 
             // Zoom camera with pinch touch
             if(Input.touchCount == 2) {
-                // FOV bounds
-                const int FOV_MAX = 60;
-                const int FOV_MIN = 0;
-
                 Touch touch1 = Input.GetTouch(0);
                 Touch touch2 = Input.GetTouch(1);
 
@@ -60,10 +60,6 @@ public class MainCamera : MonoBehaviour
     }
 
     private float Zoom(float fov) {
-        // FOV bounds
-        const int FOV_MAX = 60;
-        const int FOV_MIN = 0;
-
         // Zoom out
         if (Input.GetKey("q") && fov < FOV_MAX) {
             fov++;
