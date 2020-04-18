@@ -38,7 +38,7 @@ public class CreateDatabase : MonoBehaviour
 
 
         // testing to see if the constellation segments table was populated
-        DbDataReader dbReader2 = sqlhelper.QueryDB("select * from " + DbNames.CONSTELLATION_SEGMENTS);
+        DbDataReader dbReader2 = sqlhelper.QueryDB("select * from " + DbNames.CONSTELLATION_SEGMENTS + " LIMIT 5");
         string id;
         string star1;
         string star2;
