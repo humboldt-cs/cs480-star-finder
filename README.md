@@ -70,9 +70,11 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 * Details Screen
    * Back Arrow Button -> Night Sky View Screen
    
-## Progress .gif
+## Progress .gifs
 
 <img src="https://i.imgur.com/nB30wEZ.gif">
+
+<img src ="https://i.imgur.com/9DbdLoJ.gif">
 
 ## Wireframes
 <img src="https://github.com/humboldt-cs/cs480-star-finder/blob/master/StarFinderWireframe.jpg" width=1000>
