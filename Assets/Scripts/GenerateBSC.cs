@@ -13,10 +13,12 @@ public class GenerateBSC : MonoBehaviour
     private static string catalog_resource = "YBSC";
 
     public GameObject star_prefab;
-    public Toggle star_toggle;
+    //public Toggle star_toggle;
 
     void Awake()
     {
+        //star_toggle = GameObject.Find("Star Toggle").GetComponent<Toggle>();
+
         //if (star_toggle.isOn)
         //{
             TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
