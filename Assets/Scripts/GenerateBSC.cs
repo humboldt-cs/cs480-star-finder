@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GenerateBSC : MonoBehaviour
 {
@@ -12,19 +13,22 @@ public class GenerateBSC : MonoBehaviour
     private static string catalog_resource = "YBSC";
 
     public GameObject star_prefab;
+    public Toggle star_toggle;
 
     void Awake()
     {
+        //if (star_toggle.isOn)
+        //{
+            TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
 
-        TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
+            byte[] bsc_data = catalog.bytes;
 
-        byte[] bsc_data = catalog.bytes;
+            // Metadata: catalog headers
+            int[] catalog_headers = getCatalogHeaders(bsc_data);
 
-        // Metadata: catalog headers
-        int[] catalog_headers = getCatalogHeaders(bsc_data);
-
-        // Main loop through catalog
-        generateStars(bsc_data, star_prefab);
+            // Main loop through catalog
+            generateStars(bsc_data, star_prefab);
+        //}
     }
 
     private void Start()
