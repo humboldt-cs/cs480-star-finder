@@ -262,6 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   star_prefab: {fileID: 3585331119455566343, guid: afe92beb874bc5749966589618f108dd,
     type: 3}
+  constellation_mat: {fileID: 2100000, guid: 546e62b27a5db654ba7a04c3f1833918, type: 2}
 --- !u!1 &282828751
 GameObject:
   m_ObjectHideFlags: 0

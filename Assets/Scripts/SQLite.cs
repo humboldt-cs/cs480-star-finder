@@ -14,10 +14,17 @@ namespace SQLite
 
         // Table for holding star positions and magnitudes
         public const string STAR_POSITIONS = "star_positions";  // table name
-        public const string STAR_POSITIONS_ID = "id";           // INTEGER type, primary key, Yale Bright Star Catalog id
+        public const string STAR_POSITIONS_ID = "star_id";      // INTEGER type, primary key, Yale Bright Star Catalog id
         public const string STAR_POSITIONS_RA = "ra";           // REAL type, right ascension
         public const string STAR_POSITIONS_DEC = "dec";         // REAL type, declination
         public const string STAR_POSITIONS_MAG = "mag";         // REAL type, photographic magnitude of the star
+
+        // Table for holding constellation line segments
+        public const string CONSTELLATION_SEGMENTS = "constellation_segments";          // table name
+        public const string CONSTELLATION_SEGMENTS_ID = "segment_id";                   // INTEGER type, primary key, arbitrary id number
+        public const string CONSTELLATION_SEGMENTS_STAR1 = "star1_id";                  // INTEGER type, foreign key referencing star_positions
+        public const string CONSTELLATION_SEGMENTS_STAR2 = "star2_id";                  // INTEGER type, foreign key referencing star_positions
+        public const string CONSTELLATION_SEGMENTS_CONSTELLATION = "constellation_id";  // Integer type, foreign key referencing constellations
     }
 
     // This class is for reading from the database. It reads from the StreamingAssets folder so make
