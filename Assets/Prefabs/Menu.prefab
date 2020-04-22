@@ -93,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu_prefab: {fileID: 3230630887660853043}
   DarkModeToggle: {fileID: 4711182380505531105}
+  off_toggle: {fileID: 3456726347785418967}
   MenuGrey: {fileID: 2100000, guid: 7badcd1bda198454a889e182dc09ad6c, type: 2}
   DarkBlue: {fileID: 2100000, guid: bd7cbe87dba8bc448b908486bb14cfce, type: 2}
 --- !u!1 &3230630887660853043
@@ -580,6 +581,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menu_prefab: {fileID: 3230630887660853043}
   DarkModeToggle: {fileID: 4711182380505531105}
+  off_toggle: {fileID: 3456726347785418967}
   MenuGrey: {fileID: 2100000, guid: 7badcd1bda198454a889e182dc09ad6c, type: 2}
   DarkBlue: {fileID: 2100000, guid: bd7cbe87dba8bc448b908486bb14cfce, type: 2}
 --- !u!1 &7468918503630282657
@@ -1207,6 +1209,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3456726347785418967 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1442909968077434109, guid: 2fefbdc909676ca408732ebea221532c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4323170546228106282}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4743994220560107361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1344,6 +1352,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 340037518575117755}
     m_Modifications:
+    - target: {fileID: 494638215497633460, guid: 2fefbdc909676ca408732ebea221532c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 79ed96f00b46ad64f8d6c22146d52fcc,
+        type: 3}
     - target: {fileID: 1529502299954429536, guid: 2fefbdc909676ca408732ebea221532c,
         type: 3}
       propertyPath: m_LocalPosition.x
