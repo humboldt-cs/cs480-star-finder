@@ -11,4 +11,5 @@ public class MenuClickHandler : MonoBehaviour
         // Destroy settings menu
         GameObject.Destroy(menu_prefab);
     }
+
 }
