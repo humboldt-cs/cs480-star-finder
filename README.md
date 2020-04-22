@@ -109,3 +109,7 @@ MainScene
   * (Read/GET) Query local SQL database populated with Yale Bright Star Catalog data
   * (Update/PUT) Populate local SQL database with Yale Bright Star Catalog data
   * (Read/GET) Query NASA JPL's HORIZON telnet database to grab ephemerides data on solar system objects
+
+### Credit
+
+Toggle On/Off Icons by Icons8.com
