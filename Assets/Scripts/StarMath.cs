@@ -4,12 +4,13 @@ using UnityEngine;
 
 public static class StarMath
 {
+    private const float DRAW_DISTANCE = 1000f;
+
     // Conversion from celestial RA and DEC values to a usable transform vector
     // Expected RA/Dec values to be in radians
     public static Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude) {
-        const float DISTANCE_MIN = 5.0f;
+        const float DISTANCE_MIN = 8.0f;
         float distance = (apparent_magnitude + 2) * DISTANCE_MIN; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
-
         float x, y, z;
 
         x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * distance;
@@ -17,6 +18,28 @@ public static class StarMath
         y = Mathf.Sin(declination) * distance;
 
         return new Vector3(x, y, z);
+    }
+
+    // alternate coordinate conversion without use of apparent magnitude
+    public static Vector3 CoordConversion(float right_ascension, float declination)
+    {
+        float x, y, z;
+
+        x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * DRAW_DISTANCE;
+        z = Mathf.Sin(right_ascension) * Mathf.Cos(declination) * DRAW_DISTANCE;
+        y = Mathf.Sin(declination) * DRAW_DISTANCE;
+
+        return new Vector3(x, y, z);
+    }
+
+    // Conversion from apparent magnitude to star scale vector
+    public static Vector3 ScaleFactor(float apparent_magnitude)
+    {
+        float scale = 10 / (apparent_magnitude + 2);
+        // adjust for Sirius, it's too big
+        if (scale > 15f) { scale /= 3; }
+        return new Vector3(scale, scale, scale);
+        
     }
 
     // Conversion from RA values to angle in radians for use in sin / cos functions

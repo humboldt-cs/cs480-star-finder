@@ -34,7 +34,7 @@ public class MainCamera : MonoBehaviour
             // Zoom camera with pinch touch
             if(Input.touchCount == 2) {
                 // FOV bounds
-                const int FOV_MAX = 60;
+                const int FOV_MAX = 30;
                 const int FOV_MIN = 0;
 
                 Touch touch1 = Input.GetTouch(0);
@@ -61,7 +61,7 @@ public class MainCamera : MonoBehaviour
 
     private float Zoom(float fov) {
         // FOV bounds
-        const int FOV_MAX = 60;
+        const int FOV_MAX = 30;
         const int FOV_MIN = 0;
 
         // Zoom out

@@ -59,6 +59,9 @@ public class BigBang: MonoBehaviour
         float dec2;
         Vector3 position1;
         Vector3 position2;
+        Vector3 segment_vect;
+        float segment_length;
+        Vector3 offset_vect;
 
         while (dbReader.Read())
         {
@@ -69,9 +72,14 @@ public class BigBang: MonoBehaviour
             ra2 = System.Convert.ToSingle(dbReader[3]);
             dec2 = System.Convert.ToSingle(dbReader[4]);
 
-            // get vector positions of line verticies
-            position1 = StarMath.CoordConversion(ra1, dec1, 5.0f);
-            position2 = StarMath.CoordConversion(ra2, dec2, 5.0f);
+            // get vector positions stars
+            position1 = StarMath.CoordConversion(ra1, dec1);
+            position2 = StarMath.CoordConversion(ra2, dec2);
+            // calculate and offset from each star
+            segment_vect = position2 - position1;
+            offset_vect = segment_vect.normalized * 8;
+            position1 += offset_vect;
+            position2 -= offset_vect;
 
             // Create a new line and draw it
             GameObject constellation_segment = new GameObject(id);
@@ -82,8 +90,8 @@ public class BigBang: MonoBehaviour
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, position1);
             lineRenderer.SetPosition(1, position2);
-            lineRenderer.startWidth = 0.1f;
-            lineRenderer.endWidth = 0.1f;
+            lineRenderer.startWidth = 2.0f;
+            lineRenderer.endWidth = 2.0f;
             lineRenderer.material = constellation_mat;
         }
     }
@@ -97,6 +105,7 @@ public class BigBang: MonoBehaviour
         float dec;
         float mag;
         Vector3 position;
+        Vector3 scale;
 
         while (dbReader.Read())
         {
@@ -105,11 +114,13 @@ public class BigBang: MonoBehaviour
             dec = System.Convert.ToSingle(dbReader[2]);
             mag = System.Convert.ToSingle(dbReader[3]);
 
-            position = StarMath.CoordConversion(ra, dec, mag);
+            position = StarMath.CoordConversion(ra, dec);
+            scale = StarMath.ScaleFactor(mag);
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
 
             star.name = id;
+            star.transform.localScale = scale;
         }
         dbReader.Close();
     }
