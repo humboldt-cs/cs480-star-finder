@@ -70,9 +70,11 @@ move in response to AR inputs. Later, we could add more objects, or perhaps touc
 * Details Screen
    * Back Arrow Button -> Night Sky View Screen
    
-## Progress .gif
+## Progress .gifs
 
 <img src="https://i.imgur.com/nB30wEZ.gif">
+
+<img src ="https://i.imgur.com/9DbdLoJ.gif">
 
 ## Wireframes
 <img src="https://github.com/humboldt-cs/cs480-star-finder/blob/master/StarFinderWireframe.jpg" width=1000>
@@ -107,3 +109,7 @@ MainScene
   * (Read/GET) Query local SQL database populated with Yale Bright Star Catalog data
   * (Update/PUT) Populate local SQL database with Yale Bright Star Catalog data
   * (Read/GET) Query NASA JPL's HORIZON telnet database to grab ephemerides data on solar system objects
+
+### Credit
+
+Toggle On/Off Icons by Icons8.com

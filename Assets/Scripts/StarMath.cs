@@ -9,8 +9,9 @@ public static class StarMath
     // Conversion from celestial RA and DEC values to a usable transform vector
     // Expected RA/Dec values to be in radians
     public static Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude) {
-        const float DISTANCE_MIN = 8.0f;
-        float distance = (apparent_magnitude + 2) * DISTANCE_MIN; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
+        const float DISTANCE_MIN = 20.0f;
+        float distance = Mathf.Pow(2, apparent_magnitude) + DISTANCE_MIN;
+
         float x, y, z;
 
         x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * distance;
