@@ -36,11 +36,12 @@ public static class StarMath
     // Conversion from apparent magnitude to star scale vector
     public static Vector3 ScaleFactor(float apparent_magnitude)
     {
-        float scale = 10 / (apparent_magnitude + 2);
-        // adjust for Sirius, it's too big
-        if (scale > 15f) { scale /= 3; }
-        return new Vector3(scale, scale, scale);
-        
+        float scale = 2 / Mathf.Pow(2,apparent_magnitude);
+        // adjust for small stars
+        if (scale < 0.1f) { scale *= 20; }
+        else if (scale < 1f) { scale *= 4; }
+
+        return new Vector3(scale, scale, scale); 
     }
 
     // Conversion from RA values to angle in radians for use in sin / cos functions
