@@ -22,6 +22,7 @@ public class Gyro3 : MonoBehaviour
         if (SystemInfo.supportsGyroscope)
         {
             transform.rotation = GyroToUnity(Input.gyro.attitude);
+            transform.RotateAround(transform.parent.position, transform.parent.up, Input.GetAxis("Horizontal"));
         }
     }
 
