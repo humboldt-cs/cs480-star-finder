@@ -9,7 +9,7 @@ public static class StarMath
     public static Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude) {
 
         const float DISTANCE_MIN = 20.0f;
-        float distance = Mathf.Pow(2, apparent_magnitude) + DISTANCE_MIN;
+        float distance = Mathf.Pow(2, apparent_magnitude + 1) + DISTANCE_MIN;
 
         float x, y, z;
 
@@ -61,7 +61,7 @@ public static class StarMath
         float hour_rotation = current_hour * 15;            // 15 degrees in an hour
 
         // Apply all rotation values
-        double y_rotation = day_rotation + hour_rotation + longitude;
+        double y_rotation = day_rotation + hour_rotation - longitude;
 
         Vector3 rotation = new Vector3(latitude - 90.0f, (float)y_rotation, 0);
 
