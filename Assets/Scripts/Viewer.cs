@@ -9,14 +9,14 @@ public class Viewer : MonoBehaviour
     {
         float test_latitude = 34.227904f;
         float test_longitude = -116.859673f;
+        System.DateTime test_dt = System.DateTime.Now;
 
-        transform.Rotate(StarMath.getRotation(test_latitude, test_longitude, System.DateTime.Now));
+        transform.Rotate(StarMath.getRotation(test_latitude, test_longitude, test_dt));
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*
         // Inputs for changing rotation of the earth on z/c inputs
         // Used for testing coordinate conversions, may be reinstated later
         if(Input.GetKey("z"))
@@ -27,6 +27,5 @@ public class Viewer : MonoBehaviour
         {
             transform.Rotate(Vector3.down, Space.World);
         }
-        */
     }
 }
