@@ -60,7 +60,6 @@ public class BigBang: MonoBehaviour
         Vector3 position1;
         Vector3 position2;
         Vector3 segment_vect;
-        float segment_length;
         Vector3 offset_vect;
 
         while (dbReader.Read())
@@ -75,9 +74,10 @@ public class BigBang: MonoBehaviour
             // get vector positions stars
             position1 = StarMath.CoordConversion(ra1, dec1);
             position2 = StarMath.CoordConversion(ra2, dec2);
+            
             // calculate and offset from each star
             segment_vect = position2 - position1;
-            offset_vect = segment_vect.normalized * 8;
+            offset_vect = segment_vect.normalized * 3;
             position1 += offset_vect;
             position2 -= offset_vect;
 
@@ -90,8 +90,8 @@ public class BigBang: MonoBehaviour
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, position1);
             lineRenderer.SetPosition(1, position2);
-            lineRenderer.startWidth = 2.0f;
-            lineRenderer.endWidth = 2.0f;
+            lineRenderer.startWidth = 1.0f;
+            lineRenderer.endWidth = 1.0f;
             lineRenderer.material = constellation_mat;
         }
     }
@@ -115,12 +115,15 @@ public class BigBang: MonoBehaviour
             mag = System.Convert.ToSingle(dbReader[3]);
 
             position = StarMath.CoordConversion(ra, dec);
+            // some of the positions aren't read correctly, 
             scale = StarMath.ScaleFactor(mag);
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
 
             star.name = id;
             star.transform.localScale = scale;
+            star.transform.tag = SelectionManager.SELECTABLE_TAG;
+            star.AddComponent<SphereCollider>();
         }
         dbReader.Close();
     }

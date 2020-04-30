@@ -122,7 +122,7 @@ public class CreateDatabase : MonoBehaviour
     private void PopulateStarPositions()
     {
         // create star data table in db if not already created
-        sqlhelper.ModifyDB("DROP TABLE IF EXISTS " + DbNames.STAR_POSITIONS); // This is for testing, comment out if not testing
+        //sqlhelper.ModifyDB("DROP TABLE IF EXISTS " + DbNames.STAR_POSITIONS); // This is for testing, comment out if not testing
         sqlhelper.ModifyDB("CREATE TABLE IF NOT EXISTS " + DbNames.STAR_POSITIONS + " ("
                            + DbNames.STAR_POSITIONS_ID + " INTEGER PRIMARY KEY, "
                            + DbNames.STAR_POSITIONS_RA + " REAL, "
@@ -146,6 +146,9 @@ public class CreateDatabase : MonoBehaviour
                 float right_ascension = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 4)); // Bytes 4-11.  Includes double -> float conversion
                 float declination = System.Convert.ToSingle(System.BitConverter.ToDouble(bsc_data, i + 12));    // Bytes 12-19. Includes double -> float conversion
                 float magnitude = System.BitConverter.ToInt16(bsc_data, i + 22) / 100.0f;                       // Bytes 22-24. Includes conversion to decimal value
+
+                // some stars don't have ra and dec values, so we will ignore those
+                if (right_ascension == 0f && declination == 0f) { continue; }
 
                 // insert into database
                 string insert_row_statement = "INSERT INTO " + DbNames.STAR_POSITIONS

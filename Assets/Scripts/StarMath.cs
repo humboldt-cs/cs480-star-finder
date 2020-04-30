@@ -36,11 +36,8 @@ public static class StarMath
     // Conversion from apparent magnitude to star scale vector
     public static Vector3 ScaleFactor(float apparent_magnitude)
     {
-        float scale = 2 / Mathf.Pow(2,apparent_magnitude);
-        // adjust for small stars
-        if (scale < 0.1f) { scale *= 20; }
-        else if (scale < 1f) { scale *= 4; }
-
+        float scale = Mathf.Sqrt(10 / Mathf.Pow(2,apparent_magnitude));
+        
         return new Vector3(scale, scale, scale); 
     }
 
