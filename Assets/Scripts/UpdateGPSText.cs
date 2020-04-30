@@ -6,10 +6,13 @@ using System;
 
 public class UpdateGPSText : MonoBehaviour
 {
-    Text GPSText;
+    Text gps_lat;
+    Text gps_long;
     private void Start()
     {
-        GPSText = GameObject.Find("UI/Text").GetComponent<Text>();
+        gps_lat = GameObject.Find("UI/Latitude").GetComponent<Text>();
+        gps_long = GameObject.Find("UI/Longitude").GetComponent<Text>();
+
     }
 
 
@@ -17,6 +20,7 @@ public class UpdateGPSText : MonoBehaviour
     void Update()
     {
         string newLine = Environment.NewLine;
-        GPSText.text = "Lat: " + GPS.Instance.latitude.ToString() + newLine + "Long: " + GPS.Instance.longitude.ToString();
+        gps_lat.text = "Lat: " + GPS.Instance.latitude.ToString();
+        gps_long.text = "Long: " + GPS.Instance.longitude.ToString();
     }
 }
