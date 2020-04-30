@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Viewer : MonoBehaviour
 {
+    private float latitude = 34.227904f;
+    private float longitude = -116.859673f;
+    private Vector3 second_rotation = new Vector3(0.0f, 0.004166667f, 0.0f);
+    private System.DateTime dt;
+
     // Start is called before the first frame update
     void Start()
     {
-        float test_latitude = 34.227904f;
-        float test_longitude = -116.859673f;
-        System.DateTime test_dt = System.DateTime.Now;
-
-        transform.Rotate(StarMath.getRotation(test_latitude, test_longitude, test_dt));
+        dt = System.DateTime.Now;
+        transform.Rotate(StarMath.getRotation(latitude, longitude, dt));
+        InvokeRepeating("FollowSky", 0.0f, 1.0f);
     }
 
     // Update is called once per frame
@@ -19,7 +22,7 @@ public class Viewer : MonoBehaviour
     {
         // Inputs for changing rotation of the earth on z/c inputs
         // Used for testing coordinate conversions, may be reinstated later
-        if(Input.GetKey("z"))
+        if (Input.GetKey("z"))
         {
             transform.Rotate(Vector3.up, Space.World);
         }
@@ -27,5 +30,10 @@ public class Viewer : MonoBehaviour
         {
             transform.Rotate(Vector3.down, Space.World);
         }
+    }
+
+    void FollowSky()
+    {
+        transform.Rotate(second_rotation, Space.World);
     }
 }
