@@ -5,10 +5,14 @@ using UnityEngine;
 public class Gyro3 : MonoBehaviour
 {
     public UnityEngine.Gyroscope gyro;
-
+    //GameObject horizon;
+ 
     // Start is called before the first frame update
     void Start()
     {
+        ///horizon = GameObject.Find("Horizon");
+        //transform.rotation = horizon.transform.rotation;
+
         if (SystemInfo.supportsGyroscope) 
         {
             gyro = Input.gyro;
