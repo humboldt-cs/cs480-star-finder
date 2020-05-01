@@ -42,11 +42,11 @@ public static class StarMath
         return radians;
     }
 
-    public static Vector3 getRotation(float latitude, float longitude, System.DateTime dt)
+    public static Vector3 HorizonRotation(float latitude, float longitude, System.DateTime dt)
     {
         float rotation = LocalSiderealTime(longitude, dt);
 
-        return new Vector3(latitude - 90.0f, -rotation, 0.0f);
+        return new Vector3(latitude - 90.0f, rotation, 0.0f);
     }
 
     public static float LocalSiderealTime(float longitude, System.DateTime dt)
@@ -71,6 +71,11 @@ public static class StarMath
                           System.Math.Pow(delta_j, 3) / 38710000;
 
         double local_sidereal_time = rotation % 360;
+
+        if(longitude < 0)
+        {
+            local_sidereal_time *= -1;
+        }
 
         return (float)local_sidereal_time;
     }
