@@ -44,8 +44,10 @@ public static class StarMath
 
     public static Vector3 HorizonRotation(float latitude, float longitude, System.DateTime dt)
     {
+        // Get accurate raw LST
         float rotation = LocalSiderealTime(longitude, dt);
 
+        // Correct for Unity Vector3 values
         return new Vector3(latitude - 90.0f, rotation, 0.0f);
     }
 
@@ -72,12 +74,7 @@ public static class StarMath
 
         double local_sidereal_time = rotation % 360;
 
-        if(longitude < 0)
-        {
-            local_sidereal_time *= -1;
-        }
-
-        return (float)local_sidereal_time;
+        return (float)local_sidereal_time + longitude;
     }
 
     public static float JulianDay(System.DateTime dt)

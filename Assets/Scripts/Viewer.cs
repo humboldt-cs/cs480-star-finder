@@ -42,7 +42,14 @@ public class Viewer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKey("z"))
+        {
+            transform.Rotate(Vector3.up, Space.World);
+        }
+        if (Input.GetKey("c"))
+        {
+            transform.Rotate(Vector3.down, Space.World);
+        }
     }
 
     void FollowSky()
