@@ -33,7 +33,7 @@ public class Viewer : MonoBehaviour
         }
 
         // Apply rotation according to position / time values
-        transform.Rotate(StarMath.HorizonRotation(latitude, longitude, dt));
+        transform.Rotate(HorizonRotation(latitude, longitude, dt));
 
         // Follow night sky every second
         InvokeRepeating("FollowSky", 0.0f, 1.0f);
@@ -55,6 +55,13 @@ public class Viewer : MonoBehaviour
     void FollowSky()
     {
         transform.Rotate(second_rotation, Space.World);
+    }
+
+    Vector3 HorizonRotation(float latitude, float longitude, System.DateTime dt)
+    {
+        float rotation = StarMath.LocalSiderealTime(longitude, dt);
+
+        return new Vector3(latitude - 90.0f, rotation, 0.0f);
     }
 
     public float getLatitude()
