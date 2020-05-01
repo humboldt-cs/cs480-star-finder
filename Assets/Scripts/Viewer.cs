@@ -4,16 +4,14 @@ using UnityEngine;
 
 public class Viewer : MonoBehaviour
 {
-    private float latitude = 34.227904f;
-    private float longitude = -116.859673f;
+    private const float latitude = 34.227904f;
+    private const float longitude = -116.859673f;
     private Vector3 second_rotation = new Vector3(0.0f, 0.004166667f, 0.0f);
-    private System.DateTime dt;
 
     // Start is called before the first frame update
     void Start()
     {
-        dt = System.DateTime.Now;
-        transform.Rotate(StarMath.getRotation(latitude, longitude, dt));
+        transform.Rotate(StarMath.getRotation(latitude, longitude, System.DateTime.Now));
         InvokeRepeating("FollowSky", 0.0f, 1.0f);
     }
 
@@ -35,5 +33,15 @@ public class Viewer : MonoBehaviour
     void FollowSky()
     {
         transform.Rotate(second_rotation, Space.World);
+    }
+
+    public float getLatitude()
+    {
+        return latitude;
+    }
+
+    public float getLongitude()
+    {
+        return longitude;
     }
 }
