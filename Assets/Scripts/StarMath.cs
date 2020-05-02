@@ -21,19 +21,18 @@ public static class StarMath
     }
 
     // Conversion from RA values to angle in radians for use in sin / cos functions
-    public static float RightAscensionToRadians(float hr, float min, float sec) {
-        // Convert hr:min:sec to radians
+    public static float RightAscensionToRadians(float hr, float min, float sec)
+    {
         float radians = ((hr / 24) + (min / 1440) + (sec / 86400)) * Mathf.PI * 2;
 
         return radians;
     }
 
     // Conversion from DEC values to angle in radians for use in sin / cos functions
-    public static float DeclinationToRadians(char sign, float deg, float arcmin, float arcsec) {
-        // Convert deg:arcminutes:arcseconds to radians
+    public static float DeclinationToRadians(char sign, float deg, float arcmin, float arcsec)
+    {
         float radians = ((deg / 360) + (arcmin / 21600) + (arcsec / 1296000)) * Mathf.PI * 2;
 
-        // Make dec negative if appropriate
         if(sign == '-')
         {
             radians *= -1;
@@ -42,13 +41,8 @@ public static class StarMath
         return radians;
     }
 
-    public static Vector3 getRotation(float latitude, float longitude, System.DateTime dt)
-    {
-        float rotation = LocalSiderealTime(longitude, dt);
-
-        return new Vector3(latitude - 90.0f, -rotation, 0.0f);
-    }
-
+    // Calculates Local Sidereal Time at given longitude and date / time
+    // LST is a measurment of the angle along the celestial equator from the observer's meridian to the celestial meridian, or 0h RA
     public static float LocalSiderealTime(float longitude, System.DateTime dt)
     {
         // Algorithm taken from Astronomical Algorithms by Jean Meeus
@@ -58,9 +52,7 @@ public static class StarMath
         dt = dt.ToUniversalTime();
 
         double current_julian_day = JulianDay(dt);
-
         double hour_fraction = dt.Hour / 24.0 + dt.Minute / 1440.0 + dt.Second / 86400.0;
-
         double adjusted_jd = current_julian_day + hour_fraction;
 
         double delta_j = (current_julian_day - JULIAN_EPOCH) / 36525;
@@ -70,11 +62,13 @@ public static class StarMath
                           0.000387933 * System.Math.Pow(delta_j, 2) -
                           System.Math.Pow(delta_j, 3) / 38710000;
 
-        double local_sidereal_time = rotation % 360;
+        double greenwich_sidereal_time = rotation % 360;
 
-        return (float)local_sidereal_time;
+        return (float)greenwich_sidereal_time + longitude;
     }
 
+    // Calculates the Julian Day of the given Gregorian Date
+    // Will return a JD ending in 0.5, as JD's start at 12:00 UTC
     public static float JulianDay(System.DateTime dt)
     {
         // Algorithm taken from Astronomical Algorithms by Jean Meeus
@@ -83,7 +77,7 @@ public static class StarMath
         int month = dt.Month;
         int day = dt.Day;
 
-        if (dt.Month < 3)
+        if (month < 3)
         {
             year -= 1;
             month += 12;
