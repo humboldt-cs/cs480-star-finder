@@ -71,13 +71,14 @@ public class BigBang: MonoBehaviour
             ra2 = System.Convert.ToSingle(dbReader[3]);
             dec2 = System.Convert.ToSingle(dbReader[4]);
 
-            // get vector positions stars
-            position1 = StarMath.CoordConversion(ra1, dec1);
-            position2 = StarMath.CoordConversion(ra2, dec2);
+            // get vector positions stars (multiply by 1.1 to make sure
+            // the lines render behind the stars)
+            position1 = StarMath.CoordConversion(ra1, dec1)*1.1f;
+            position2 = StarMath.CoordConversion(ra2, dec2)*1.1f;
             
             // calculate and offset from each star
             segment_vect = position2 - position1;
-            offset_vect = segment_vect.normalized * 3;
+            offset_vect = segment_vect.normalized * 8;
             position1 += offset_vect;
             position2 -= offset_vect;
 
@@ -90,8 +91,9 @@ public class BigBang: MonoBehaviour
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, position1);
             lineRenderer.SetPosition(1, position2);
-            lineRenderer.startWidth = 1.0f;
-            lineRenderer.endWidth = 1.0f;
+            lineRenderer.startWidth = 3.0f;
+            lineRenderer.endWidth = 3.0f;
+            lineRenderer.numCapVertices = 11;
             lineRenderer.material = constellation_mat;
         }
     }
