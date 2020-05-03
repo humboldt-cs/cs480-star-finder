@@ -26,5 +26,7 @@ public class UpdateGPSText : MonoBehaviour
     void Update()
     {
         local_time.text = "Local Time: " + System.DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+        gps_lat.text = "Lat: " + viewer.getLatitude().ToString();
+        gps_long.text = "Long: " + viewer.getLongitude().ToString();
     }
 }
