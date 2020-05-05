@@ -17,6 +17,8 @@ public class BigBang: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // check persistent data path for database, copy from streaming assets if needed
+        DatabasePathChecker.CheckPersistentPath();
         // create SQL helper object (opens connection to database, handles db interaction)
         sqlhelper = new SQLiteHelper();
 
@@ -31,22 +33,22 @@ public class BigBang: MonoBehaviour
     {
         // query database to get constellation segment endpoints
         string inner_query = "SELECT " + DbNames.CONSTELLATION_SEGMENTS_ID + ", "
-                                       + DbNames.STAR_POSITIONS_RA + ", "
-                                       + DbNames.STAR_POSITIONS_DEC + ", "
+                                       + DbNames.STAR_DATA_RA + ", "
+                                       + DbNames.STAR_DATA_DEC + ", "
                                        + DbNames.CONSTELLATION_SEGMENTS_STAR2 + " "
                            + "FROM " + DbNames.CONSTELLATION_SEGMENTS + " "
-                           + "INNER JOIN " + DbNames.STAR_POSITIONS + " ON "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_ID + " = "
+                           + "INNER JOIN " + DbNames.STAR_DATA + " ON "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_ID + " = "
                                        + DbNames.CONSTELLATION_SEGMENTS + "." + DbNames.CONSTELLATION_SEGMENTS_STAR1;
 
         string outer_query = "SELECT a." + DbNames.CONSTELLATION_SEGMENTS_ID + ", "
-                                       + "a." + DbNames.STAR_POSITIONS_RA + ", "
-                                       + "a." + DbNames.STAR_POSITIONS_DEC + ", "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_RA + ", "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_DEC + " "
+                                       + "a." + DbNames.STAR_DATA_RA + ", "
+                                       + "a." + DbNames.STAR_DATA_DEC + ", "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_RA + ", "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_DEC + " "
                            + "FROM (" + inner_query + ") AS a "
-                                       + "INNER JOIN " + DbNames.STAR_POSITIONS + " ON "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_ID + " = "
+                                       + "INNER JOIN " + DbNames.STAR_DATA + " ON "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_ID + " = "
                                        + "a." + DbNames.CONSTELLATION_SEGMENTS_STAR2;
        
         DbDataReader dbReader = sqlhelper.QueryDB(outer_query);
@@ -59,6 +61,8 @@ public class BigBang: MonoBehaviour
         float dec2;
         Vector3 position1;
         Vector3 position2;
+        Vector3 segment_vect;
+        Vector3 offset_vect;
 
         while (dbReader.Read())
         {
@@ -69,9 +73,16 @@ public class BigBang: MonoBehaviour
             ra2 = System.Convert.ToSingle(dbReader[3]);
             dec2 = System.Convert.ToSingle(dbReader[4]);
 
-            // get vector positions of line verticies
-            position1 = StarMath.CoordConversion(ra1, dec1, 5.0f);
-            position2 = StarMath.CoordConversion(ra2, dec2, 5.0f);
+            // get vector positions stars (multiply by 1.1 to make sure
+            // the lines render behind the stars)
+            position1 = StarMath.CoordConversion(ra1, dec1)*1.1f;
+            position2 = StarMath.CoordConversion(ra2, dec2)*1.1f;
+            
+            // calculate and offset from each star
+            segment_vect = position2 - position1;
+            offset_vect = segment_vect.normalized * 8;
+            position1 += offset_vect;
+            position2 -= offset_vect;
 
             // Create a new line and draw it
             GameObject constellation_segment = new GameObject(id);
@@ -82,21 +93,29 @@ public class BigBang: MonoBehaviour
             lineRenderer.positionCount = 2;
             lineRenderer.SetPosition(0, position1);
             lineRenderer.SetPosition(1, position2);
-            lineRenderer.startWidth = 0.1f;
-            lineRenderer.endWidth = 0.1f;
+            lineRenderer.startWidth = 3.0f;
+            lineRenderer.endWidth = 3.0f;
+            lineRenderer.numCapVertices = 11;
             lineRenderer.material = constellation_mat;
         }
+        dbReader.Close();
     }
 
     private void CreateStars()
     {
-        // query database to get star positions
-        DbDataReader dbReader = sqlhelper.QueryDB("SELECT * FROM " + DbNames.STAR_POSITIONS);
+        // query database for star data
+        DbDataReader dbReader = sqlhelper.QueryDB("SELECT " + DbNames.STAR_DATA_ID + ", "
+                                                             + DbNames.STAR_DATA_RA + ", "
+                                                             + DbNames.STAR_DATA_DEC + ", "
+                                                             + DbNames.STAR_DATA_MAG + " " +
+                                                   "FROM " + DbNames.STAR_DATA);
+
         string id;
         float ra;
         float dec;
         float mag;
         Vector3 position;
+        Vector3 scale;
 
         while (dbReader.Read())
         {
@@ -105,11 +124,16 @@ public class BigBang: MonoBehaviour
             dec = System.Convert.ToSingle(dbReader[2]);
             mag = System.Convert.ToSingle(dbReader[3]);
 
-            position = StarMath.CoordConversion(ra, dec, mag);
+            position = StarMath.CoordConversion(ra, dec);
+            // some of the positions aren't read correctly, 
+            scale = StarMath.ScaleFactor(mag);
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
 
             star.name = id;
+            star.transform.localScale = scale;
+            star.transform.tag = SelectionManager.SELECTABLE_TAG;
+            star.AddComponent<SphereCollider>();
         }
         dbReader.Close();
     }
