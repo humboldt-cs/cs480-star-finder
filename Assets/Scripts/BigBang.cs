@@ -17,6 +17,8 @@ public class BigBang: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // check persistent data path for database, copy from streaming assets if needed
+        DatabasePathChecker.CheckPersistentPath();
         // create SQL helper object (opens connection to database, handles db interaction)
         sqlhelper = new SQLiteHelper();
 
@@ -31,22 +33,22 @@ public class BigBang: MonoBehaviour
     {
         // query database to get constellation segment endpoints
         string inner_query = "SELECT " + DbNames.CONSTELLATION_SEGMENTS_ID + ", "
-                                       + DbNames.STAR_POSITIONS_RA + ", "
-                                       + DbNames.STAR_POSITIONS_DEC + ", "
+                                       + DbNames.STAR_DATA_RA + ", "
+                                       + DbNames.STAR_DATA_DEC + ", "
                                        + DbNames.CONSTELLATION_SEGMENTS_STAR2 + " "
                            + "FROM " + DbNames.CONSTELLATION_SEGMENTS + " "
-                           + "INNER JOIN " + DbNames.STAR_POSITIONS + " ON "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_ID + " = "
+                           + "INNER JOIN " + DbNames.STAR_DATA + " ON "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_ID + " = "
                                        + DbNames.CONSTELLATION_SEGMENTS + "." + DbNames.CONSTELLATION_SEGMENTS_STAR1;
 
         string outer_query = "SELECT a." + DbNames.CONSTELLATION_SEGMENTS_ID + ", "
-                                       + "a." + DbNames.STAR_POSITIONS_RA + ", "
-                                       + "a." + DbNames.STAR_POSITIONS_DEC + ", "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_RA + ", "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_DEC + " "
+                                       + "a." + DbNames.STAR_DATA_RA + ", "
+                                       + "a." + DbNames.STAR_DATA_DEC + ", "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_RA + ", "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_DEC + " "
                            + "FROM (" + inner_query + ") AS a "
-                                       + "INNER JOIN " + DbNames.STAR_POSITIONS + " ON "
-                                       + DbNames.STAR_POSITIONS + "." + DbNames.STAR_POSITIONS_ID + " = "
+                                       + "INNER JOIN " + DbNames.STAR_DATA + " ON "
+                                       + DbNames.STAR_DATA + "." + DbNames.STAR_DATA_ID + " = "
                                        + "a." + DbNames.CONSTELLATION_SEGMENTS_STAR2;
        
         DbDataReader dbReader = sqlhelper.QueryDB(outer_query);
@@ -96,12 +98,18 @@ public class BigBang: MonoBehaviour
             lineRenderer.numCapVertices = 11;
             lineRenderer.material = constellation_mat;
         }
+        dbReader.Close();
     }
 
     private void CreateStars()
     {
-        // query database to get star positions
-        DbDataReader dbReader = sqlhelper.QueryDB("SELECT * FROM " + DbNames.STAR_POSITIONS);
+        // query database for star data
+        DbDataReader dbReader = sqlhelper.QueryDB("SELECT " + DbNames.STAR_DATA_ID + ", "
+                                                             + DbNames.STAR_DATA_RA + ", "
+                                                             + DbNames.STAR_DATA_DEC + ", "
+                                                             + DbNames.STAR_DATA_MAG + " " +
+                                                   "FROM " + DbNames.STAR_DATA);
+
         string id;
         float ra;
         float dec;
