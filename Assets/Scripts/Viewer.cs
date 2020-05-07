@@ -57,14 +57,14 @@ public class Viewer : MonoBehaviour
 
     void FollowSky()
     {
-        transform.Rotate(second_rotation, Space.World);
+        transform.Rotate(-second_rotation, Space.World);
     }
 
     Vector3 HorizonRotation(float latitude, float longitude, System.DateTime dt)
     {
         float rotation = StarMath.LocalSiderealTime(longitude, dt);
 
-        return new Vector3(latitude - 90.0f, rotation, 0.0f);
+        return new Vector3(latitude - 90.0f, -rotation, 0.0f);
     }
 
     public float getLatitude()
