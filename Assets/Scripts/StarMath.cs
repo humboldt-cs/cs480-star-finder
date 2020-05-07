@@ -5,11 +5,11 @@ using UnityEngine;
 public static class StarMath
 {
     const double JULIAN_EPOCH = 2451545.0;
+    private const float DRAW_DISTANCE = 1000f;
 
     // Conversion from celestial RA and DEC values to a usable transform vector
     // Expects RA/Dec values to be in radians
     public static Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude) {
-
         const float DISTANCE_MIN = 20.0f;
         float distance = Mathf.Pow(2, apparent_magnitude + 1) + DISTANCE_MIN;
 
@@ -20,6 +20,26 @@ public static class StarMath
         y = Mathf.Sin(declination) * distance;
 
         return new Vector3(x, y, z);
+    }
+
+    // alternate coordinate conversion without use of apparent magnitude
+    public static Vector3 CoordConversion(float right_ascension, float declination)
+    {
+        float x, y, z;
+
+        x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * DRAW_DISTANCE;
+        z = Mathf.Sin(right_ascension) * Mathf.Cos(declination) * DRAW_DISTANCE;
+        y = Mathf.Sin(declination) * DRAW_DISTANCE;
+
+        return new Vector3(x, y, z);
+    }
+
+    // Conversion from apparent magnitude to star scale vector
+    public static Vector3 ScaleFactor(float apparent_magnitude)
+    {
+        float scale = Mathf.Sqrt(10 / Mathf.Pow(2,apparent_magnitude));
+        
+        return new Vector3(scale, scale, scale); 
     }
 
     // Conversion from RA values to angle in radians for use in sin / cos functions
@@ -173,7 +193,7 @@ public static class StarMath
         double declination_radians = declination;
 
         // Convert RA / Dec to Unity Vector3
-        Vector3 solar_coordinates = CoordConversion((float)right_ascension_radians, (float)declination_radians, 1.0f);
+        Vector3 solar_coordinates = CoordConversion((float)right_ascension_radians, (float)declination_radians);
 
         return solar_coordinates;
     }
