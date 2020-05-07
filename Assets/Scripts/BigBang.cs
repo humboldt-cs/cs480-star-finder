@@ -12,6 +12,8 @@ public class BigBang: MonoBehaviour
     [SerializeField]
     private GameObject star_prefab;
     [SerializeField]
+    private GameObject sun_prefab;
+    [SerializeField]
     private Material constellation_mat;
 
     // Start is called before the first frame update
@@ -24,6 +26,7 @@ public class BigBang: MonoBehaviour
 
         // create night sky objects
         CreateStars();
+        CreateSun();
         CreateConstellationSegments();
 
         
@@ -136,5 +139,19 @@ public class BigBang: MonoBehaviour
             star.AddComponent<SphereCollider>();
         }
         dbReader.Close();
+    }
+
+    private void CreateSun()
+    {
+        float sun_magnitude = -12.0f;
+
+        Vector3 position = StarMath.SolarCoordinates(System.DateTime.Now);
+        Vector3 scale = StarMath.ScaleFactor(sun_magnitude);
+
+        GameObject sun = Instantiate(sun_prefab, position, Quaternion.identity);
+        
+        sun.name = "Sun";
+        sun.transform.LookAt(new Vector3(0, 0, 0));
+        sun.transform.localScale = scale;
     }
 }
