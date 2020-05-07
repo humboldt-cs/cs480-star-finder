@@ -9,10 +9,9 @@ public class BigBang: MonoBehaviour
 {
     // fields
     private SQLiteHelper sqlhelper;
-    [SerializeField]
-    private GameObject star_prefab;
-    [SerializeField]
-    private Material constellation_mat;
+    [SerializeField] private GameObject star_prefab;
+    [SerializeField] private Material constellation_mat;
+    [SerializeField] private Flare star_flare;
 
     // Start is called before the first frame update
     void Start()
@@ -107,33 +106,47 @@ public class BigBang: MonoBehaviour
         DbDataReader dbReader = sqlhelper.QueryDB("SELECT " + DbNames.STAR_DATA_ID + ", "
                                                              + DbNames.STAR_DATA_RA + ", "
                                                              + DbNames.STAR_DATA_DEC + ", "
-                                                             + DbNames.STAR_DATA_MAG + " " +
+                                                             + DbNames.STAR_DATA_MAG + ", "
+                                                             + DbNames.STAR_DATA_BAYER + " " +
                                                    "FROM " + DbNames.STAR_DATA);
 
         string id;
         float ra;
         float dec;
         float mag;
+        string bayer;
         Vector3 position;
-        Vector3 scale;
-
+        Vector3 scale_vect;
+        float flare_scale;
+        LensFlare lensFlare;
+        
         while (dbReader.Read())
         {
             id = dbReader[0].ToString();
             ra = System.Convert.ToSingle(dbReader[1]);
             dec = System.Convert.ToSingle(dbReader[2]);
             mag = System.Convert.ToSingle(dbReader[3]);
+            bayer = System.Convert.ToString(dbReader[4]);
 
             position = StarMath.CoordConversion(ra, dec);
-            // some of the positions aren't read correctly, 
-            scale = StarMath.ScaleFactor(mag);
+            scale_vect = StarMath.ScaleVector(mag);
+            flare_scale = scale_vect.x / 200;
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
 
             star.name = id;
-            star.transform.localScale = scale;
-            star.transform.tag = SelectionManager.SELECTABLE_TAG;
-            star.AddComponent<SphereCollider>();
+            star.transform.localScale = scale_vect;
+
+            // make star selectable if has bayer designation
+            if (!String.IsNullOrEmpty(bayer))
+            {
+                star.transform.tag = SelectionManager.SELECTABLE_TAG;
+                star.AddComponent<SphereCollider>();
+                star.AddComponent<LensFlare>();
+                lensFlare = star.GetComponent<LensFlare>();
+                lensFlare.flare = star_flare;
+                lensFlare.brightness = flare_scale;
+            }
         }
         dbReader.Close();
     }

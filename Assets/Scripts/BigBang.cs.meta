@@ -3,7 +3,10 @@ guid: 3abe75b08bb9a09409f49a4b2943c582
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - star_prefab: {fileID: 3585331119455566343, guid: afe92beb874bc5749966589618f108dd,
+      type: 3}
+  - constellation_mat: {fileID: 2100000, guid: 546e62b27a5db654ba7a04c3f1833918, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

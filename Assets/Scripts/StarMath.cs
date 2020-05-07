@@ -34,11 +34,16 @@ public static class StarMath
     }
 
     // Conversion from apparent magnitude to star scale vector
-    public static Vector3 ScaleFactor(float apparent_magnitude)
+    public static Vector3 ScaleVector(float apparent_magnitude)
     {
         float scale = Mathf.Sqrt(10 / Mathf.Pow(2,apparent_magnitude));
         
         return new Vector3(scale, scale, scale); 
+    }
+
+    public static float ScaleFactor(float apparent_magnitude)
+    {
+        return Mathf.Sqrt(10 / Mathf.Pow(2, apparent_magnitude));
     }
 
     // Conversion from RA values to angle in radians for use in sin / cos functions

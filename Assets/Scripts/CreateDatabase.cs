@@ -38,7 +38,7 @@ public class CreateDatabase : MonoBehaviour
         dbReader0.Close();
 
         // testing to see if the star data table was populated
-        DbDataReader dbReader1 = sqlhelper.QueryDB("SELECT * FROM " + DbNames.STAR_DATA + " LIMIT 5");
+        DbDataReader dbReader1 = sqlhelper.QueryDB("SELECT * FROM " + DbNames.STAR_DATA + " LIMIT 20");
         string star_id;
         string name;
         string bayer;
@@ -262,13 +262,13 @@ public class CreateDatabase : MonoBehaviour
 
                 // extract star information
                 id_val = star_info[0] + ","; id_col = DbNames.STAR_DATA_ID + ",";
-                if (star_info[1] != "") { bayer_val = "'" + star_info[1] + "',"; bayer_col = DbNames.STAR_DATA_BAYER + ","; }
-                if (star_info[2] != "") { flam_val = star_info[2] + ","; flam_col = DbNames.STAR_DATA_FLAM + ","; }
-                if (star_info[3] != "") { con_val = "'" + star_info[3] + "',"; con_col = DbNames.STAR_DATA_CON + ","; }
+                if (star_info[1] != "") { bayer_val = "'" + star_info[1] + "',"; bayer_col = DbNames.STAR_DATA_BAYER + ","; } else { bayer_val = ""; bayer_col = ""; }
+                if (star_info[2] != "") { flam_val = star_info[2] + ","; flam_col = DbNames.STAR_DATA_FLAM + ","; } else { flam_val = ""; flam_col = ""; }
+                if (star_info[3] != "") { con_val = "'" + star_info[3] + "',"; con_col = DbNames.STAR_DATA_CON + ","; } else { con_val = ""; con_col = ""; }
                 ra_val = star_info[4] + ","; ra_col = DbNames.STAR_DATA_RA + ",";
                 dec_val = star_info[5] + ","; dec_col = DbNames.STAR_DATA_DEC + ",";
-                if (star_info[6] != "") { dist_val = star_info[6] + ","; dist_col = DbNames.STAR_DATA_DIST + ","; }
-                if (star_info[7] != "") { amag_val = star_info[7] + ","; amag_col = DbNames.STAR_DATA_AMAG + ","; }
+                if (star_info[6] != "") { dist_val = star_info[6] + ","; dist_col = DbNames.STAR_DATA_DIST + ","; } else { dist_val = ""; dist_col = ""; }
+                if (star_info[7] != "") { amag_val = star_info[7] + ","; amag_col = DbNames.STAR_DATA_AMAG + ","; } else { amag_val = ""; amag_col = ""; }
                 mag_val = star_info[8]; mag_col = DbNames.STAR_DATA_MAG;
 
                 insert_statement = String.Format("INSERT INTO " + DbNames.STAR_DATA
