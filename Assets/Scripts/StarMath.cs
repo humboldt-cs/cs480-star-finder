@@ -141,10 +141,6 @@ public static class StarMath
 
         // Corrections to longitude and anomaly values
         double true_longitude_degrees = mean_longitude_degrees + sun_center_degrees;
-        double true_longitude_radians = true_longitude_degrees * System.Math.PI / 180.0d;
-
-        double true_anomaly_degrees = mean_anomaly_degrees + sun_center_degrees;
-        double true_anomaly_radians = true_longitude_degrees * System.Math.PI / 180.0d;
 
         // Apparent longitude corrections
         double omega = 125.04 -
@@ -159,11 +155,12 @@ public static class StarMath
                                                1.64e-7 * System.Math.Pow(time_passed, 2) +
                                                5.0361e-7 * System.Math.Pow(time_passed, 3);
 
-        // Apparent celestial coordinate calculations
+        // Obliquity of the Ecliptic corrections for apparent position of the Sun
         double obliquity_degrees_corrected = obliquity_of_ecliptic_degrees +
                                              0.00256 * System.Math.Cos(omega * System.Math.PI / 180.0d);
         double obliquity_radians_corrected = obliquity_degrees_corrected * System.Math.PI / 180.0d;
 
+        // Celestial coordinate calculations
         double right_ascension = System.Math.Atan2(System.Math.Cos(obliquity_radians_corrected) *
                                                    System.Math.Sin(lambda * System.Math.PI / 180.0d) ,
                                                    System.Math.Cos(lambda * System.Math.PI / 180.0d));
@@ -172,9 +169,10 @@ public static class StarMath
 
         double declination = System.Math.Asin(System.Math.Sin(obliquity_radians_corrected) *
                                               System.Math.Sin(lambda * System.Math.PI / 180.0d));
-        double declination_degrees = declination / System.Math.PI * 180.0d;
+        double declination_degrees = declination / System.Math.PI * 180.0d; // Only used for debugging and test case checking
         double declination_radians = declination;
 
+        // Convert RA / Dec to Unity Vector3
         Vector3 solar_coordinates = CoordConversion((float)right_ascension_radians, (float)declination_radians, 1.0f);
 
         return solar_coordinates;
