@@ -16,7 +16,7 @@ public class GyroCamera : MonoBehaviour
         // cameraContainer initialized, set to match camera's movements
         cameraContainer = new GameObject("Camera Container");
         cameraContainer.transform.position = transform.position;
-        transform.SetParent(cameraContainer.transform);
+        ///transform.SetParent(cameraContainer.transform);
             
         gyroEnabled = EnableGyro();
     }
