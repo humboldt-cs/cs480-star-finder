@@ -5,10 +5,8 @@ using UnityEngine;
 public class Gyro3 : MonoBehaviour
 {
     public UnityEngine.Gyroscope gyro;
-    //Quaternion initialRotation;
     private Quaternion gyroInitialRotation;
-    private Quaternion correction;
-    public GameObject viewer;
+    public GameObject GyroObject;
     private bool isSet;
 
     //GameObject horizon;
@@ -20,14 +18,11 @@ public class Gyro3 : MonoBehaviour
         {
             gyro = Input.gyro;
             Input.gyro.enabled = true;
+            //gyroInitialRotation = GyroToUnity(Input.gyro.attitude);
         }
 
         //isSet = false;
-        //correction = Quaternion.Inverse(Quaternion.Euler(0f, 0f, 90f));
-        //initialRotation = transform.rotation;
-        //gyroInitialRotation = GyroToUnity(Input.gyro.attitude);
-        //gyroInitialRotation = viewer.transform.rotation;
-
+        gyroInitialRotation = GyroToUnity(Input.gyro.attitude);
     }
 
     // Update is called once per frame
@@ -35,18 +30,14 @@ public class Gyro3 : MonoBehaviour
     {
         /*if (!isSet) 
         {
-            correction = viewer.transform.rotation * Quaternion.Inverse(GyroToUnity(Input.gyro.attitude));
+            gyroInitialRotation = GyroToUnity(Input.gyro.attitude);
             isSet = true;
         }*/
 
-        gyroInitialRotation = viewer.transform.rotation;
-
         if (SystemInfo.supportsGyroscope)
         {
-            //transform.rotation = GyroToUnity(Input.gyro.attitude);
-            //transform.RotateAround(transform.parent.position, transform.parent.up, Input.GetAxis("Horizontal"));
-            //Quaternion offsetRotation = gyroInitialRotation * GyroToUnity(Input.gyro.attitude);
-            transform.localRotation = GyroToUnity(Input.gyro.attitude);
+            Quaternion offsetRotation = Quaternion.Inverse(gyroInitialRotation) * GyroToUnity(Input.gyro.attitude);
+            transform.rotation = GyroObject.transform.rotation * offsetRotation;
         }
     }
 
@@ -54,4 +45,18 @@ public class Gyro3 : MonoBehaviour
     {
         return new Quaternion(q.x, q.y, -q.z, -q.w);
     }
+
+    void OnGUI()
+    {
+        if( GUILayout.Button( "Calibrate", GUILayout.Width( 300 ), GUILayout.Height( 100 ) ) )
+        {
+            CalibrateYAngle();
+        }
+    }
+ 
+    public void CalibrateYAngle()
+    {
+        gyroInitialRotation = GyroToUnity(Input.gyro.attitude);
+    }
+
 }
