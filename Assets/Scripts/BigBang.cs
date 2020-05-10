@@ -27,8 +27,6 @@ public class BigBang: MonoBehaviour
         CreateStars();
         CreateSun();
         CreateConstellationSegments();
-
-        
     }
 
     private void CreateConstellationSegments()

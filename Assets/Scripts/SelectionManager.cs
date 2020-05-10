@@ -23,6 +23,9 @@ public class SelectionManager : MonoBehaviour
 
     private void Start()
     {
+        // check persistent data path for database, copy from streaming assets if needed
+        DatabasePathChecker.CheckPersistentPath();
+        // create connection to database
         sqlhelper = new SQLiteHelper();
     }
 
