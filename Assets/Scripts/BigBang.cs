@@ -13,6 +13,7 @@ public class BigBang: MonoBehaviour
     [SerializeField] private GameObject star_prefab;
     [SerializeField] private Material constellation_mat;
     [SerializeField] private Flare star_flare;
+    [SerializeField] private GameObject sun_prefab;
 
     // Start is called before the first frame update
     void Start()
@@ -158,7 +159,7 @@ public class BigBang: MonoBehaviour
         float sun_magnitude = -12.0f;
 
         Vector3 position = StarMath.SolarCoordinates(System.DateTime.Now);
-        Vector3 scale = StarMath.ScaleFactor(sun_magnitude);
+        Vector3 scale = StarMath.ScaleVector(sun_magnitude);
 
         GameObject sun = Instantiate(sun_prefab, position, Quaternion.identity);
         

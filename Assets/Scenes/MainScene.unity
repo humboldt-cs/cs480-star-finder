@@ -414,7 +414,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 800
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
@@ -449,7 +449,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90.00001
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
@@ -1288,10 +1288,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   star_prefab: {fileID: 3585331119455566343, guid: afe92beb874bc5749966589618f108dd,
     type: 3}
-  sun_prefab: {fileID: 8969641673350944726, guid: a6b8c42cb8069ae49871b75930fc0698,
-    type: 3}
   constellation_mat: {fileID: 2100000, guid: 546e62b27a5db654ba7a04c3f1833918, type: 2}
   star_flare: {fileID: 12100000, guid: 9bdb18c49d114cb4300035184241aa39, type: 2}
+  sun_prefab: {fileID: 8969641673350944726, guid: a6b8c42cb8069ae49871b75930fc0698,
+    type: 3}
 --- !u!1 &1969425787
 GameObject:
   m_ObjectHideFlags: 0
