@@ -6,16 +6,21 @@ using System;
 
 public class UpdateGPSText : MonoBehaviour
 {
-    Viewer viewer;
-    Text gps_lat;
-    Text gps_long;
-    Text local_time;
+    [SerializeField] private Text gps_lat;
+    [SerializeField] private Text gps_long;
+    [SerializeField] private Text local_time;
+    [SerializeField] private Viewer viewer;
+
+    //Viewer viewer;
+    //Text gps_lat;
+    //Text gps_long;
+    //Text local_time;
     private void Start()
     {
-        viewer = GameObject.Find("Viewer").GetComponent<Viewer>();
-        gps_lat = GameObject.Find("UI/Latitude").GetComponent<Text>();
-        gps_long = GameObject.Find("UI/Longitude").GetComponent<Text>();
-        local_time = GameObject.Find("UI/Time").GetComponent<Text>();
+        //viewer = GameObject.Find("Viewer").GetComponent<Viewer>();
+        //gps_lat = GameObject.Find("UI/Latitude").GetComponent<Text>();
+        //gps_long = GameObject.Find("UI/Longitude").GetComponent<Text>();
+        //local_time = GameObject.Find("UI/Time").GetComponent<Text>();
 
         gps_lat.text = "Lat: " + viewer.getLatitude().ToString();
         gps_long.text = "Long: " + viewer.getLongitude().ToString();
