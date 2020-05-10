@@ -202,7 +202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 12}
+  m_AnchoredPosition: {x: 20, y: 50}
   m_SizeDelta: {x: 600, y: 45}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &215300427
@@ -487,6 +487,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6f131c455911ba47b745d98e5cc9ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gps_lat: {fileID: 0}
+  gps_long: {fileID: 0}
+  local_time: {fileID: 0}
+  viewer: {fileID: 0}
 --- !u!114 &815873964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,9 +573,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight_flare: {fileID: 12100000, guid: 14658756c2cc7774eb40c9dbad08e217, type: 2}
-  star_flare: {fileID: 12100000, guid: 14658756c2cc7774eb40c9dbad08e217, type: 2}
+  star_flare: {fileID: 12100000, guid: 9bdb18c49d114cb4300035184241aa39, type: 2}
   star_text: {fileID: 215300427}
   constellation_text: {fileID: 1282898438}
+  default_mat: {fileID: 2100000, guid: 546e62b27a5db654ba7a04c3f1833918, type: 2}
+  highlight_mat: {fileID: 2100000, guid: 6de26929d1bf47446a99c3af14f27d60, type: 2}
 --- !u!4 &978292325
 Transform:
   m_ObjectHideFlags: 0
@@ -671,7 +677,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.14, g: 0.168, b: 0.2, a: 1}
+  m_BackGroundColor: {r: 0.121599995, g: 0.121599995, b: 0.16, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -841,7 +847,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 20, y: 60}
+  m_AnchoredPosition: {x: 20, y: 20}
   m_SizeDelta: {x: 600, y: 22}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1282898438

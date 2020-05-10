@@ -84,7 +84,7 @@ public class BigBang: MonoBehaviour
             position2 -= offset_vect;
 
             // Create a new line and draw it
-            GameObject constellation_segment = new GameObject(id);
+            GameObject constellation_segment = new GameObject("CON" + id);
             constellation_segment.AddComponent<LineRenderer>();
             LineRenderer lineRenderer = constellation_segment.GetComponent<LineRenderer>();
 
@@ -134,7 +134,7 @@ public class BigBang: MonoBehaviour
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
 
-            star.name = id;
+            star.name = "HR" + id;
             star.transform.localScale = scale_vect;
 
             // make star selectable if has bayer designation

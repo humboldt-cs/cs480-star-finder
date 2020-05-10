@@ -12,6 +12,7 @@ public class CreateDatabase : MonoBehaviour
     private const string STAR_NAMES_SOURCE = "starnames";
     private const string CONSTELLATION_DATA_SOURCE = "constellation_data";
     private const string CONSTELLATION_SEGMENTS_DATA_SOURCE = "constellation_segments";
+    private const string SPECIAL_CHARS_DATA_SOURCE = "special_chars";
     private SQLiteHelper sqlhelper;
 
     void Start()
@@ -42,6 +43,7 @@ public class CreateDatabase : MonoBehaviour
         string star_id;
         string name;
         string bayer;
+        string exp;
         string flam;
         string con;
         string ra;
@@ -54,18 +56,19 @@ public class CreateDatabase : MonoBehaviour
             star_id = dbReader1[0].ToString();
             name = dbReader1[1].ToString();
             bayer = dbReader1[2].ToString();
-            flam = dbReader1[3].ToString();
-            con = dbReader1[4].ToString();
-            ra = dbReader1[5].ToString();
-            dec = dbReader1[6].ToString();
-            dist = dbReader1[7].ToString();
-            mag = dbReader1[8].ToString();
-            amag = dbReader1[9].ToString();
+            exp = dbReader1[3].ToString();
+            flam = dbReader1[4].ToString();
+            con = dbReader1[5].ToString();
+            ra = dbReader1[6].ToString();
+            dec = dbReader1[7].ToString();
+            dist = dbReader1[8].ToString();
+            mag = dbReader1[9].ToString();
+            amag = dbReader1[10].ToString();
         }
         dbReader1.Close();
 
         // testing to see if the constellation segments table was populated
-        DbDataReader dbReader2 = sqlhelper.QueryDB("SELECT * from " + DbNames.CONSTELLATION_SEGMENTS + " LIMIT 5");
+        DbDataReader dbReader2 = sqlhelper.QueryDB("SELECT * FROM " + DbNames.CONSTELLATION_SEGMENTS + " LIMIT 5");
         string segment_id;
         string star1;
         string star2;
@@ -77,6 +80,7 @@ public class CreateDatabase : MonoBehaviour
             star2 = dbReader2[2].ToString();
             constellation = dbReader2[3].ToString();
         }
+        dbReader2.Close();
     }
 
     private void PopulateConstellationData()
@@ -203,7 +207,7 @@ public class CreateDatabase : MonoBehaviour
         dbReader.Close();
     }
 
-    // Creates and populates the star_positions table from binary file
+    // Creates and populates the star_positions table from stardata.csv
     private void PopulateStarData()
     {
         // create star data table in db if not already created
@@ -212,6 +216,7 @@ public class CreateDatabase : MonoBehaviour
                            + DbNames.STAR_DATA_ID + " INTEGER PRIMARY KEY, "
                            + DbNames.STAR_DATA_NAME + " TEXT, "
                            + DbNames.STAR_DATA_BAYER + " TEXT, "
+                           + DbNames.STAR_DATA_BAYER_EXP + " INTEGER, "
                            + DbNames.STAR_DATA_FLAM + " INTEGER, "
                            + DbNames.STAR_DATA_CON + " TEXT, "
                            + DbNames.STAR_DATA_RA + " REAL, "
@@ -237,8 +242,11 @@ public class CreateDatabase : MonoBehaviour
             string star_string;
             string id_val = "";
             string id_col = "";
+            string[] bayer;
             string bayer_val = "";
             string bayer_col = "";
+            string exp_val = "";
+            string exp_col = "";
             string flam_val = "";
             string flam_col = "";
             string con_val = "";
@@ -260,22 +268,36 @@ public class CreateDatabase : MonoBehaviour
                 star_string = star.Trim('\r');
                 star_info = star_string.Split(',');
 
-                // extract star information
+                // extract star id
                 id_val = star_info[0] + ","; id_col = DbNames.STAR_DATA_ID + ",";
-                if (star_info[1] != "") { bayer_val = "'" + star_info[1] + "',"; bayer_col = DbNames.STAR_DATA_BAYER + ","; } else { bayer_val = ""; bayer_col = ""; }
+                // extract bayer designation
+                if (star_info[1] != "") 
+                { 
+                    bayer = star_info[1].Split('-');
+                    bayer_val = "'" + bayer[0] + "',";
+                    bayer_col = DbNames.STAR_DATA_BAYER + ",";
+                    if (bayer.Length>1) { exp_val = bayer[1] + ","; exp_col = DbNames.STAR_DATA_BAYER_EXP + ","; }
+                    else { exp_val = ""; exp_col = ""; }
+                }
+                else { bayer_val = ""; bayer_col = ""; exp_val = ""; exp_col = ""; }
+                // extract flamsteed designation
                 if (star_info[2] != "") { flam_val = star_info[2] + ","; flam_col = DbNames.STAR_DATA_FLAM + ","; } else { flam_val = ""; flam_col = ""; }
+                // extract constellation classification
                 if (star_info[3] != "") { con_val = "'" + star_info[3] + "',"; con_col = DbNames.STAR_DATA_CON + ","; } else { con_val = ""; con_col = ""; }
+                // extract right ascension and declination
                 ra_val = star_info[4] + ","; ra_col = DbNames.STAR_DATA_RA + ",";
                 dec_val = star_info[5] + ","; dec_col = DbNames.STAR_DATA_DEC + ",";
+                // extract distance
                 if (star_info[6] != "") { dist_val = star_info[6] + ","; dist_col = DbNames.STAR_DATA_DIST + ","; } else { dist_val = ""; dist_col = ""; }
+                // extract absolute magnitude and apparent magnitude
                 if (star_info[7] != "") { amag_val = star_info[7] + ","; amag_col = DbNames.STAR_DATA_AMAG + ","; } else { amag_val = ""; amag_col = ""; }
                 mag_val = star_info[8]; mag_col = DbNames.STAR_DATA_MAG;
 
                 insert_statement = String.Format("INSERT INTO " + DbNames.STAR_DATA
-                                                                + " ({0}{1}{2}{3}{4}{5}{6}{7}{8})" +
-                                                 " VALUES ({9}{10}{11}{12}{13}{14}{15}{16}{17})",
-                                                 id_col, bayer_col, flam_col, con_col, ra_col, dec_col, dist_col, amag_col, mag_col,
-                                                 id_val, bayer_val, flam_val, con_val, ra_val, dec_val, dist_val, amag_val, mag_val);
+                                                                + " ({0}{1}{2}{3}{4}{5}{6}{7}{8}{9})" +
+                                                 " VALUES ({10}{11}{12}{13}{14}{15}{16}{17}{18}{19})",
+                                                 id_col, bayer_col, exp_col, flam_col, con_col, ra_col, dec_col, dist_col, amag_col, mag_col,
+                                                 id_val, bayer_val, exp_val, flam_val, con_val, ra_val, dec_val, dist_val, amag_val, mag_val);
                 
                 try
                 {
