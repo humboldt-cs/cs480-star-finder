@@ -8,7 +8,6 @@ public class Viewer : MonoBehaviour
     private float latitude = 51.4934f;
     private float longitude = 0.0098f;
     private System.DateTime dt = System.DateTime.Now.ToUniversalTime();
-
     private Vector3 second_rotation = new Vector3(0.0f, 0.004166667f, 0.0f);
 
     // Start is called before the first frame update
@@ -33,7 +32,6 @@ public class Viewer : MonoBehaviour
         }*/
 
         StartCoroutine(StartLocationService());
-        dt = System.DateTime.Now;
 
         // Apply rotation according to position / time values
         transform.Rotate(HorizonRotation(latitude, longitude, dt));
@@ -57,14 +55,14 @@ public class Viewer : MonoBehaviour
 
     void FollowSky()
     {
-        transform.Rotate(second_rotation, Space.World);
+        transform.Rotate(-second_rotation, Space.World);
     }
 
     Vector3 HorizonRotation(float latitude, float longitude, System.DateTime dt)
     {
         float rotation = StarMath.LocalSiderealTime(longitude, dt);
 
-        return new Vector3(latitude - 90.0f, rotation, 0.0f);
+        return new Vector3(latitude - 90.0f, -rotation, 0.0f);
     }
 
     public float getLatitude()
