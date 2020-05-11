@@ -154,7 +154,7 @@ public class BigBang: MonoBehaviour
 
     private void CreateSun()
     {
-        float sun_magnitude = -12.0f;
+        float sun_magnitude = -4.5f;
 
         Vector3 position = StarMath.SolarCoordinates(System.DateTime.Now);
         Vector3 scale = StarMath.ScaleVector(sun_magnitude);
