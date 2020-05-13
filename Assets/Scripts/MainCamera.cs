@@ -7,57 +7,62 @@ public class MainCamera : MonoBehaviour
     // FOV bounds
     private const int FOV_MAX = 50;
     private const int FOV_MIN = 0;
+    private bool paused = false;
     
     // Start is called before the first frame update
-    void Start() {
+    void Start() 
+    {
         Camera.main.fieldOfView = FOV_MAX;
     }
 
     // Update is called once per frame
     void Update() {
-        // Change orientation of the camera based on arrow key input
-        transform.Rotate(Input.GetAxis("Vertical") * Vector3.right, Space.Self);
-        transform.RotateAround(transform.parent.position, transform.parent.up, Input.GetAxis("Horizontal")); // Sets yaw axis of rotation to parent object
+        if (!paused)
+        {
+            // Change orientation of the camera based on arrow key input
+            transform.Rotate(Input.GetAxis("Vertical") * Vector3.right, Space.Self);
+            transform.RotateAround(transform.parent.position, transform.parent.up, Input.GetAxis("Horizontal")); // Sets yaw axis of rotation to parent object
 
-        // Change orientation of the camera based on touchscreen input
-        // If screen detects touch
-        if(Input.touchCount > 0) {
-            Touch touch = Input.GetTouch(0);
+            // Change orientation of the camera based on touchscreen input
+            // If screen detects touch
+            if(Input.touchCount > 0) {
+                Touch touch = Input.GetTouch(0);
 
-            // Rotate camera with single touch
-            if (Input.touchCount == 1)
-            {
-                if (touch.phase == TouchPhase.Moved)
+                // Rotate camera with single touch
+                if (Input.touchCount == 1)
                 {
-                    float rotation_speed = 0.1f; // Speed modifier
-                    transform.Rotate(Vector3.right * touch.deltaPosition.y * rotation_speed, Space.Self); // pitch
-                    transform.Rotate(Vector3.up * -touch.deltaPosition.x * rotation_speed, Space.Self); // yaw
+                    if (touch.phase == TouchPhase.Moved)
+                    {
+                        float rotation_speed = 0.1f; // Speed modifier
+                        transform.Rotate(Vector3.right * touch.deltaPosition.y * rotation_speed, Space.Self); // pitch
+                        transform.Rotate(Vector3.up * -touch.deltaPosition.x * rotation_speed, Space.Self); // yaw
+                    }
                 }
-            }
 
-            // Zoom camera with pinch touch
-            if(Input.touchCount == 2) {
+                // Zoom camera with pinch touch
+                if(Input.touchCount == 2) {
                 
-                Touch touch1 = Input.GetTouch(0);
-                Touch touch2 = Input.GetTouch(1);
+                    Touch touch1 = Input.GetTouch(0);
+                    Touch touch2 = Input.GetTouch(1);
 
-                // Zoom out
-                if(Vector2.Distance(touch1.position, touch2.position) > Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition) 
-                    && Camera.main.fieldOfView < FOV_MAX)
-                {
-                    Camera.main.fieldOfView++;
-                }
-                // Zoom in
-                if(Vector2.Distance(touch1.position, touch2.position) < Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition)
-                    && Camera.main.fieldOfView > FOV_MIN)
-                {
-                    Camera.main.fieldOfView--;
+                    // Zoom out
+                    if(Vector2.Distance(touch1.position, touch2.position) > Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition) 
+                        && Camera.main.fieldOfView < FOV_MAX)
+                    {
+                        Camera.main.fieldOfView++;
+                    }
+                    // Zoom in
+                    if(Vector2.Distance(touch1.position, touch2.position) < Vector2.Distance(touch1.position + touch1.deltaPosition, touch2.position + touch2.deltaPosition)
+                        && Camera.main.fieldOfView > FOV_MIN)
+                    {
+                        Camera.main.fieldOfView--;
+                    }
                 }
             }
-        }
 
-        // Change FOV with keys q/e
-        Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
+            // Change FOV with keys q/e
+            Camera.main.fieldOfView = Zoom(Camera.main.fieldOfView);
+        }
     }
 
     private float Zoom(float fov) {
@@ -72,5 +77,15 @@ public class MainCamera : MonoBehaviour
         }
 
         return fov;
+    }
+
+    public void pause()
+    {
+        paused = true;
+    }
+
+    public void resume()
+    {
+        paused = false;
     }
 }

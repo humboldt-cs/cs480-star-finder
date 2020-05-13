@@ -414,7 +414,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 600
+      value: 750
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
@@ -983,6 +983,7 @@ MonoBehaviour:
   menu_button: {fileID: 806858108}
   menu_prefab: {fileID: 3230630887660853043, guid: 42281646d9daf0549b6c71b4ef521648,
     type: 3}
+  main_camera: {fileID: 963194225}
 --- !u!4 &1078669354
 Transform:
   m_ObjectHideFlags: 0

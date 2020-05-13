@@ -22,6 +22,13 @@ public class MenuClickHandler : MonoBehaviour
 
     public void toStarView()
     {
+        // resume camera movement
+        GameObject mainCamera = GameObject.Find("Main Camera");
+        if (mainCamera != null)
+        {
+            mainCamera.GetComponent<MainCamera>().resume();
+        }
+
         // Destroy settings menu
         GameObject.Destroy(menu_prefab);
     }

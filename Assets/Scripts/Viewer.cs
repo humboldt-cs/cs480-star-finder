@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Viewer : MonoBehaviour
 {
-    // Default values: Greenwich, England UTC
-    private float latitude = 51.4934f;
-    private float longitude = 0.0098f;
+    // Default values: McKinleyville, CA 95519
+    private float latitude = 40.942500f;
+    private float longitude = -124.095910f;
     private System.DateTime dt = System.DateTime.Now.ToUniversalTime();
     private Vector3 second_rotation = new Vector3(0.0f, 0.004166667f, 0.0f);
 
@@ -40,18 +40,18 @@ public class Viewer : MonoBehaviour
         InvokeRepeating("FollowSky", 0.0f, 1.0f);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKey("z"))
-        {
-            transform.Rotate(Vector3.up, Space.World);
-        }
-        if (Input.GetKey("c"))
-        {
-            transform.Rotate(Vector3.down, Space.World);
-        }
-    }
+    // Update is called once per frame (only for testing)
+    //void Update()
+    //{
+    //    if(Input.GetKey("z"))
+    //    {
+    //        transform.Rotate(Vector3.up, Space.World);
+    //    }
+    //    if (Input.GetKey("c"))
+    //    {
+    //        transform.Rotate(Vector3.down, Space.World);
+    //    }
+    //}
 
     void FollowSky()
     {
