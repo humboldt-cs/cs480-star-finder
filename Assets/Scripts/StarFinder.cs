@@ -32,12 +32,19 @@ public class StarFinder : MonoBehaviour
         if (search_object != null)
         {
             star_vect = search_object.GetComponent<Transform>().position;
+            star_vect_mag = star_vect.magnitude;
             activated = true;
         }
         else
         {
             Debug.Log("Star not found: " + search_star);
         }
+    }
+
+    public void deactivate()
+    {
+        GameObject.Destroy(pointer);
+        GameObject.Destroy(this);
     }
 
     // Update is called once per frame
@@ -61,6 +68,12 @@ public class StarFinder : MonoBehaviour
             camera_vect = Camera.main.transform.forward;
             difference_mag = (star_vect + camera_vect).magnitude;
             if (difference_mag < star_vect_mag) { difference_angle += 180f; }
+
+            // deactivate if the cursor is pointed at the star
+            if (difference_mag > star_vect_mag && Mathf.Abs(pointer_vect.x) < 0.05f && Mathf.Abs(pointer_vect.y) < 0.025f)
+            {
+                deactivate();
+            }
         
             // rotate pointer
             pointer_transform.Rotate(new Vector3(0, 0, difference_angle));

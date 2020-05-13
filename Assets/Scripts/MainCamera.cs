@@ -5,7 +5,7 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour
 {
     // FOV bounds
-    private const int FOV_MAX = 40;
+    private const int FOV_MAX = 50;
     private const int FOV_MIN = 0;
     
     // Start is called before the first frame update
