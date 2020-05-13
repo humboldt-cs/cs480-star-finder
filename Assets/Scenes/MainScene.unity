@@ -414,11 +414,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
       propertyPath: m_LocalPosition.y
-<<<<<<< HEAD
       value: 750
-=======
-      value: 800
->>>>>>> a8e4845bcd798aa56b5bba62e11f7815df31add7
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4e0b3770cf58aa042bfa59e9358bde14,
         type: 3}
@@ -1168,7 +1164,6 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307438989}
   m_Enabled: 1
-<<<<<<< HEAD
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e883b1728906cd4c8e58372d958df32, type: 3}
   m_Name: 
@@ -1178,7 +1173,6 @@ MeshRenderer:
     type: 3}
   main_camera: {fileID: 963194225}
 --- !u!4 &1078669354
-=======
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1227,7 +1221,6 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1450573795
->>>>>>> a8e4845bcd798aa56b5bba62e11f7815df31add7
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
