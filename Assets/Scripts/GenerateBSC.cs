@@ -13,8 +13,7 @@ public class GenerateBSC : MonoBehaviour
 
     public GameObject star_prefab;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
         TextAsset catalog = Resources.Load<TextAsset>(catalog_resource);
@@ -26,6 +25,11 @@ public class GenerateBSC : MonoBehaviour
 
         // Main loop through catalog
         generateStars(bsc_data, star_prefab);
+    }
+
+    private void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -65,25 +69,10 @@ public class GenerateBSC : MonoBehaviour
             float magnitude = System.BitConverter.ToInt16(bsc_data, i + 22) / 100.0f;                       // Bytes 22-24. Includes conversion to decimal value
 
             // Convert RA/DEC to XYZ
-            Vector3 position = CoordConversion(right_ascension, declination, magnitude);
+            Vector3 position = StarMath.CoordConversion(right_ascension, declination, magnitude);
 
             GameObject star = Instantiate(star_prefab, position, Quaternion.identity);
             star.name = catalog_num.ToString();
         }
-    }
-
-    // Conversion from celestial RA and DEC values to a usable transform vector
-    // Expected RA/Dec values to be in radians
-    private Vector3 CoordConversion(float right_ascension, float declination, float apparent_magnitude)
-    {
-        float distance = Mathf.Pow(2, apparent_magnitude) + 20.0f; // A more accurate model would be 2.5^apparent magnitude, this is a demonstration
-
-        float x, y, z;
-
-        x = Mathf.Cos(right_ascension) * Mathf.Cos(declination) * distance;
-        z = Mathf.Sin(right_ascension) * Mathf.Cos(declination) * distance;
-        y = Mathf.Sin(declination) * distance;
-
-        return new Vector3(x, y, z);
     }
 }
